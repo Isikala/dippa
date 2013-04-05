@@ -1,1201 +1,1049 @@
-% Lines starting with a percent sign (%) are comments. LaTeX will
-% not process those lines. Similarly, everything after a percent
-% sign in a line is considered a comment. To produce a percent sign
-% in the output, write \% (backslash followed by the percent sign).
-% ==================================================================
-% Usage instructions:
-% ------------------------------------------------------------------
-% The file is heavily commented so that you know what the various
-% commands do. Feel free to remove any comments you don't need from
-% your own copy. When redistributing the example thesis file, please
-% retain all the comments for the benefit of other thesis writers!
-% ==================================================================
-% Compilation instructions:
-% ------------------------------------------------------------------
-% Use pdflatex to compile! Input images are expected as PDF files.
-% Example compilation:
-% ------------------------------------------------------------------
-% > pdflatex thesis-example.tex
-% > bibtex thesis-example
-% > pdflatex thesis-example.tex
-% > pdflatex thesis-example.tex
-% ------------------------------------------------------------------
-% You need to run pdflatex multiple times so that all the cross-references
-% are fixed. pdflatex will tell you if you need to re-run it (a warning
-% will be issued)
-% ------------------------------------------------------------------
-% Compilation has been tested to work in ukk.cs.hut.fi and kosh.hut.fi
-% - if you have problems of missing .sty -files, then the local LaTeX
-% environment does not have all the required packages installed.
-% For example, when compiling in vipunen.hut.fi, you get an error that
-% tikz.sty is missing - in this case you must either compile somewhere
-% else, or you cannot use TikZ graphics in your thesis and must therefore
-% remove or comment out the tikz package and all the tikz definitions.
-% ------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                %%
+%% Esimerkki opinnäytteen tekemisestä LaTeX:lla 20120320          %%
+%% Alkuperäinen versio Luis Costa,  muutokset Perttu Puska        %%
+%%                                                                %%
+%% Tähän esimerkkiin kuuluu tiedostot                             %%
+%%               opinnaytepohja.tex (versio 1.6)                  %%
+%%               aaltothesis.sty (versio 1.6)                     %%
+%%               kuva1.eps                                        %%
+%%               kuva2.eps                                        %%
+%%                                                                %%
+%%                                                                %%
+%% Kääntäminen                                                    %%
+%% latex:                                                         %%
+%%             $ latex opinnaytepohja                             %%
+%%             $ latex opinnaytepohja                             %%
+%%                                                                %%
+%%   Tuloksena on tiedosto opinnayte.dvi, joka                    %%
+%%   muutetaan ps-muotoon seuraavasti                             %%
+%%                                                                %%
+%%             $ dvips opinnaytepohja -o                          %%
+%%                                                                %%
+%% Selittävät kommentit on tässä esimerkissä varustettu           %%
+%% %%-merkeillä ja muutokset, joita käyttäjä voi tehdä,           %%
+%% on varustettu %-merkeillä                                      %%
+%%                                                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% General information
-% ==================================================================
-% Package documentation:
-%
-% The comments often refer to package documentation. (Almost) all LaTeX
-% packages have documentation accompanying them, so you can read the
-% package documentation for further information. When a package 'xxx' is
-% installed to your local LaTeX environment (the document compiles
-% when you have \usepackage{xxx} and LaTeX does not complain), you can
-% find the documentation somewhere in the local LaTeX texmf directory
-% hierarchy. In ukk.cs.hut.fi, this is /usr/texlive/2008/texmf-dist,
-% and the documentation for the titlesec package (for example) can be
-% found at /usr/texlive/2008/texmf-dist/doc/latex/titlesec/titlesec.pdf.
-% Most often the documentation is located as a PDF file in
-% /usr/texlive/2008/texmf-dist/doc/latex/xxx, where xxx is the package name;
-% however, documentation for TikZ is in
-% /usr/texlive/2008/texmf-dist/doc/latex/generic/pgf/pgfmanual.pdf
-% (this is because TikZ is a front-end for PGF, which is meant to be a
-% generic portable graphics format for LaTeX).
-% You can try to look for the package manual using the ``find'' shell
-% command in Linux machines; the find databases are up-to-date at least
-% in ukk.cs.hut.fi. Just type ``find xxx'', where xxx is the package
-% name, and you should find a documentation file.
-% Note that in some packages, the documentation is in the DVI file
-% format. In this case, you can copy the DVI file to your home directory,
-% and convert it to PDF with the dvipdfm command (or you can read the
-% DVI file directly with a DVI viewer).
-%
-% If you can't find the documentation for a package, just try Googling
-% for ``latex packagename''; most often you can get a direct link to the
-% package manual in PDF format.
-% ------------------------------------------------------------------
+%% Käytä toinen näistä, jos kirjoitat suomeksi:
+%% ensimmäinen, jos käytät pdflatexia (kuvat on oltava pdf-tiedostoina)
+%% toinen, jos haluat tuottaa ps-tiedostoa (käytä eps-formaattia kuville).
+%%
+%% Use one of these you write in Finnish:
+%% the 1st when using pdflatex (use pdf figures) or
+%% the 2nd when producing a ps file (use eps figures).
+\documentclass[finnish,12pt,a4paper,pdftex]{article}
+%\documentclass[finnish,12pt,a4paper,dvips]{article}
 
-
-% Document class for the thesis is report
-% ------------------------------------------------------------------
-% You can change this but do so at your own risk - it may break other things.
-% Note that the option pdftext is used for pdflatex; there is no
-% pdflatex option.
-% ------------------------------------------------------------------
-\documentclass[12pt,a4paper,oneside,pdftex]{report}
-
-% The input files (tex files) are encoded with the latin-1 encoding
-% (ISO-8859-1 works). Change the latin1-option if you use UTF8
-% (at some point LaTeX did not work with UTF8, but I'm not sure
-% what the current situation is)
+%% Nämä komennot asettavat oikean tekstiencodauksen.
 \usepackage[utf8]{inputenc}
-% OT1 font encoding seems to work better than T1. Check the rendered
-% PDF file to see if the fonts are encoded properly as vectors (instead
-% of rendered bitmaps). You can do this by zooming very close to any letter
-% - if the letter is shown pixelated, you should change this setting
-% (try commenting out the entire line, for example).
 \usepackage[OT1]{fontenc}
-% The babel package provides hyphenating instructions for LaTeX. Give
-% the languages you wish to use in your thesis as options to the babel
-% package (as shown below). You can remove any language you are not
-% going to use.
-% Examples of valid language codes: english (or USenglish), british,
-% finnish, swedish; and so on.
-\usepackage[finnish,swedish,english]{babel}
+
+%% Käytä näitä, jos kirjoitat englanniksi
+%%
+%% Uncomment one of these if you write in English
+%\documentclass[english,12pt,a4paper,pdftex]{article}
+%\documentclass[english,12pt,a4paper,dvips]{article}
+
+%% Tämä paketti on pakollinen
+%% Valitse korkeakoulusi näistä: arts, biz, chem, elec, eng, sci.
+%%
+%% This package is required
+%% Choose your school from arts, biz, chem, elec, eng, sci.
+\usepackage[elec]{aaltothesis}
+
+%% Jos käytät latex-komentoa käännettäessä (oletusarvo) 
+%% kuvat kannattaa tehdä eps-muotoon. Älä käytä ps-muotoisia kuvia!
+%% Käytä seuraavaa latex-komennon ja eps-kuvien kanssa 
+%%
+%% Jos tääs käytät pdflatex-komentoa, joka kääntää tekstin suoraan
+%% pdf-tiedostoksi, kuvasi on oltava jpg-formaatissa tai pdf-formaatissa.
+%%
+%% Use this if you run pdflatex and use jpg/pdf-format pictures.
+%%
+\usepackage{graphicx}
+
+%% Saat pdf-tiedoston viittaukset ja linkit kuntoon seuraavalla paketilla.
+%% Paketti toimii erityisen hyvin pdflatexin kanssa. 
+%%
+%% Use this if you want to get links and nice output with pdflatex
+%\usepackage[pdfpagemode=None,colorlinks=true,urlcolor=red,%
+%linkcolor=blue,citecolor=black,pdfstartview=FitH]{hyperref}
+
+%% Jos et jostain syystä tykkää käyttää
+%% edellistä hyperref pakettia, voit käyttää myös seuraavaa pakettia
+%% (tarvitaan lähinnä url-komennon määrittämiseen ja formatoimiseen)
+%%
+%% Use this if you do not like hyperref package - this
+%% defines url environment and formats it correctly
+\usepackage{url}
+
+%% Matematiikan fontteja, symboleja ja muotoiluja lisää, näitä tarvitaan usein 
+%%
+%% Use this if you write hard core mathematics, these are usually needed
+\usepackage{amsfonts,amssymb,amsbsy}  
+
+%% Vaakasuunnan mitat, ÄLÄ KOSKE!
+\setlength{\hoffset}{-1in}
+\setlength{\oddsidemargin}{35mm}
+\setlength{\evensidemargin}{25mm}
+\setlength{\textwidth}{15cm}
+%% Pystysuunnan mitat, ÄLÄ KOSKE!
+\setlength{\voffset}{-1in}
+\setlength{\headsep}{7mm}
+\setlength{\headheight}{1em}
+\setlength{\topmargin}{25mm-\headheight-\headsep}
+\setlength{\textheight}{23cm}
 
 
-% Font selection
-% ------------------------------------------------------------------
-% The default LaTeX font is a very good font for rendering your
-% thesis. It is a very professional font, which will always be
-% accepted.
-% If you, however, wish to spicen up your thesis, you can try out
-% these font variants by uncommenting one of the following lines
-% (or by finding another font package). The fonts shown here are
-% all fonts that you could use in your thesis (not too silly).
-% Changing the font causes the layouts to shift a bit; you many
-% need to manually adjust some layouts. Check the warning messages
-% LaTeX gives you.
-% ------------------------------------------------------------------
-% To find another font, check out the font catalogue from
-% http://www.tug.dk/FontCatalogue/mathfonts.html
-% This link points to the list of fonts that support maths, but
-% that's a fairly important point for master's theses.
-% ------------------------------------------------------------------
-% <rant>
-% Remember, there is no excuse to use Comic Sans, ever, in any
-% situation! (Well, maybe in speech bubbles in comics, but there
-% are better options for those too)
-% </rant>
-
-% \usepackage{palatino}
-% \usepackage{tgpagella}
-
-
-
-% Optional packages
-% ------------------------------------------------------------------
-% Select those packages that you need for your thesis. You may delete
-% or comment the rest.
-
-% Natbib allows you to select the format of the bibliography references.
-% The first example uses numbered citations:
-\usepackage[square,sort&compress,numbers]{natbib}
-% The second example uses author-year citations.
-% If you use author-year citations, change the bibliography style (below);
-% acm style does not work with author-year citations.
-% Also, you should use \citet (cite in text) when you wish to refer
-% to the author directly (\citet{blaablaa} said blaa blaa), and
-% \citep when you wish to refer similarly than with numbered citations
-% (It has been said that blaa blaa~\citep{blaablaa}).
-% \usepackage[square]{natbib}
-
-% The alltt package provides an all-teletype environment that acts
-% like verbatim but you can use LaTeX commands in it. Uncomment if
-% you want to use this environment.
-% \usepackage{alltt}
-
-% The eurosym package provides a euro symbol. Use with \euro{}
-\usepackage{eurosym}
-\usepackage{mathtools}
-% Verbatim provides a standard teletype environment that renderes
-% the text exactly as written in the tex file. Useful for code
-% snippets (although you can also use the listings package to get
-% automatic code formatting).
-\usepackage{verbatim}
-
-% The listing package provides automatic code formatting utilities
-% so that you can copy-paste code examples and have them rendered
-% nicely. See the package documentation for details.
-% \usepackage{listings}
-
-% The fancuvrb package provides fancier verbatim environments
-% (you can, for example, put borders around the verbatim text area
-% and so on). See package for details.
-% \usepackage{fancyvrb}
-
-% Supertabular provides a tabular environment that can span multiple
-% pages.
-%\usepackage{supertabular}
-% Longtable provides a tabular environment that can span multiple
-% pages. This is used in the example acronyms file.
-\usepackage{longtable}
-
-% The fancyhdr package allows you to set your the page headers
-% manually, and allows you to add separator lines and so on.
-% Check the package documentation.
-% \usepackage{fancyhdr}
-
-% Subfigure package allows you to use subfigures (i.e. many subfigures
-% within one figure environment). These can have different labels and
-% they are numbered automatically. Check the package documentation.
-\usepackage{subfigure}
-
-% The titlesec package can be used to alter the look of the titles
-% of sections, chapters, and so on. This example uses the ``medium''
-% package option which sets the titles to a medium size, making them
-% a bit smaller than what is the default. You can fine-tune the
-% title fonts and sizes by using the package options. See the package
-% documentation.
-\usepackage[medium]{titlesec}
-
-% The TikZ package allows you to create professional technical figures.
-% The learning curve is quite steep, but it is definitely worth it if
-% you wish to have really good-looking technical figures.
-\usepackage{tikz}
-% You also need to specify which TikZ libraries you use
-\usetikzlibrary{positioning}
-\usetikzlibrary{calc}
-\usetikzlibrary{arrows}
-\usetikzlibrary{decorations.pathmorphing,decorations.markings}
-\usetikzlibrary{shapes}
-\usetikzlibrary{patterns}
-
-
-% The aalto-thesis package provides typesetting instructions for the
-% standard master's thesis parts (abstracts, front page, and so on)
-% Load this package second-to-last, just before the hyperref package.
-% Options that you can use:
-% mydraft - renders the thesis in draft mode.
-% Do not use for the final version.
-% doublenumbering - [optional] number the first pages of the thesis
-% with roman numerals (i, ii, iii, ...); and start
-% arabic numbering (1, 2, 3, ...) only on the
-% first page of the first chapter
-% twoinstructors - changes the title of instructors to plural form
-% twosupervisors - changes the title of supervisors to plural form
-\usepackage[mydraft,twosupervisors]{aalto-thesis}
-%\usepackage[mydraft,doublenumbering]{aalto-thesis}
-%\usepackage{aalto-thesis}
-
-
-% Hyperref
-% ------------------------------------------------------------------
-% Hyperref creates links from URLs, for references, and creates a
-% TOC in the PDF file.
-% This package must be the last one you include, because it has
-% compatibility issues with many other packages and it fixes
-% those issues when it is loaded.
-\RequirePackage[pdftex]{hyperref}
-% Setup hyperref so that links are clickable but do not look
-% different
-\hypersetup{colorlinks=false,raiselinks=false,breaklinks=true}
-\hypersetup{pdfborder={0 0 0}}
-\hypersetup{bookmarksnumbered=true}
-% The following line suggests the PDF reader that it should show the
-% first level of bookmarks opened in the hierarchical bookmark view.
-\hypersetup{bookmarksopen=true,bookmarksopenlevel=1}
-% Hyperref can also set up the PDF metadata fields. These are
-% set a bit later on, after the thesis setup.
-
-
-% Thesis setup
-% ==================================================================
-% Change these to fit your own thesis.
-% \COMMAND always refers to the English version;
-% \FCOMMAND refers to the Finnish version; and
-% \SCOMMAND refers to the Swedish version.
-% You may comment/remove those language variants that you do not use
-% (but then you must not include the abstracts for that language)
-% ------------------------------------------------------------------
-% If you do not find the command for a text that is shown in the cover page or
-% in the abstract texts, check the aalto-thesis.sty file and locate the text
-% from there.
-% All the texts are configured in language-specific blocks (lots of commands
-% that look like this: \renewcommand{\ATCITY}{Espoo}.
-% You can just fix the texts there. Just remember to check all the language
-% variants you use (they are all there in the same place).
-% ------------------------------------------------------------------
-\newcommand{\TITLE}{Software Processes for Dummies:}
-\newcommand{\FTITLE}{Ohjelmistoprosessit mänteille:}
-%\newcommand{\STITLE}{Den stora stygga vargen:}
-\newcommand{\SUBTITLE}{Re-inventing the Wheel}
-\newcommand{\FSUBTITLE}{Uusi organisaatio, uudet pyörät}
-%\newcommand{\SSUBTITLE}{Lilla Vargens universum}
-\newcommand{\DATE}{June 18, 2011}
-\newcommand{\FDATE}{18. kesäkuuta 2011}
-%\newcommand{\SDATE}{Den 18 Juni 2011}
-
-% Supervisors and instructors
-% ------------------------------------------------------------------
-% If you have two supervisors, write both names here, separate them with a
-% double-backslash (see below for an example)
-% Also remember to add the package option ``twosupervisors'' or
-% ``twoinstructors'' to the aalto-thesis package so that the titles are in
-% plural.
-% Example of one supervisor:
-%\newcommand{\SUPERVISOR}{Professor Antti Ylä-Jääski}
-%\newcommand{\FSUPERVISOR}{Professori Antti Ylä-Jääski}
-%\newcommand{\SSUPERVISOR}{Professor Antti Ylä-Jääski}
-% Example of twosupervisors:
-\newcommand{\SUPERVISOR}{Professor Antti Ylä-Jääski\\
-  Professor Pekka Perustieteilijä}
-\newcommand{\FSUPERVISOR}{Professori Antti Ylä-Jääski\\
-  Professori Pekka Perustieteilijä}
-\newcommand{\SSUPERVISOR}{Professor Antti Ylä-Jääski\\
-  Professor Pekka Perustieteilijä}
-
-% If you have only one instructor, just write one name here
-\newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)}
-\newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja}
-%\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja}
-% If you have two instructors, separate them with \\ to create linefeeds
-% \newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)\\
-% Elli Opas M.Sc. (Tech)}
-%\newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja\\
-% Diplomi-insinööri Elli Opas}
-%\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja\\
-% Diplomingenjör Elli Opas}
-
-% If you have two supervisors, it is common to write the schools
-% of the supervisors in the cover page. If the following command is defined,
-% then the supervisor names shown here are printed in the cover page. Otherwise,
-% the supervisor names defined above are used.
-\newcommand{\COVERSUPERVISOR}{Professor Antti Ylä-Jääski, Aalto University\\
-  Professor Pekka Perustieteilijä, University of Helsinki}
-
-% The same option is for the instructors, if you have multiple instructors.
-% \newcommand{\COVERINSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.), Aalto University\\
-% Elli Opas M.Sc. (Tech), Aalto SCI}
-
-
-% Other stuff
-% ------------------------------------------------------------------
-\newcommand{\PROFESSORSHIP}{Data Communication Software}
-\newcommand{\FPROFESSORSHIP}{Tietoliikenneohjelmistot}
-%\newcommand{\SPROFESSORSHIP}{Datakommunikationsprogram}
-% Professorship code is the same in all languages
-\newcommand{\PROFCODE}{T-110}
-\newcommand{\KEYWORDS}{ocean, sea, marine, ocean mammal, marine mammal, whales,
-cetaceans, dolphins, porpoises}
-\newcommand{\FKEYWORDS}{AEL, aineistot, aitta, akustiikka, Alankomaat,
-aluerakentaminen, Anttolanhovi, Arcada, ArchiCad, arkki}
-%\newcommand{\SKEYWORDS}{omsättning, kassaflöde, värdepappersmarknadslagen,
-%yrkesutövare, intresseföretag, verifieringskedja}
-\newcommand{\LANGUAGE}{English}
-\newcommand{\FLANGUAGE}{Englanti}
-%\newcommand{\SLANGUAGE}{Engelska}
-
-% Author is the same for all languages
-\newcommand{\AUTHOR}{Mikael Siirtola}
-
-
-% Currently the English versions are used for the PDF file metadata
-% Set the PDF title
-\hypersetup{pdftitle={\TITLE\ \SUBTITLE}}
-% Set the PDF author
-\hypersetup{pdfauthor={\AUTHOR}}
-% Set the PDF keywords
-\hypersetup{pdfkeywords={\KEYWORDS}}
-% Set the PDF subject
-\hypersetup{pdfsubject={Master's Thesis}}
-
-
-% Layout settings
-% ------------------------------------------------------------------
-
-% When you write in English, you should use the standard LaTeX
-% paragraph formatting: paragraphs are indented, and there is no
-% space between paragraphs.
-% When writing in Finnish, we often use no indentation in the
-% beginning of the paragraph, and there is some space between the
-% paragraphs.
-
-% If you write your thesis Finnish, uncomment these lines; if
-% you write in English, leave these lines commented!
-% \setlength{\parindent}{0pt}
-% \setlength{\parskip}{1ex}
-
-% Use this to control how much space there is between each line of text.
-% 1 is normal (no extra space), 1.3 is about one-half more space, and
-% 1.6 is about double line spacing.
-% \linespread{1} % This is the default
-% \linespread{1.3}
-
-% Bibliography style
-% acm style gives you a basic reference style. It works only with numbered
-% references.
-\bibliographystyle{acm}
-% Plainnat is a plain style that works with both numbered and name citations.
-% \bibliographystyle{plainnat}
-
-
-% Extra hyphenation settings
-% ------------------------------------------------------------------
-% You can list here all the files that are not hyphenated correctly.
-% You can provide many \hyphenation commands and/or separate each word
-% with a space inside a single command. Put hyphens in the places where
-% a word can be hyphenated.
-% Note that (by default) LaTeX will not hyphenate words that already
-% have a hyphen in them (for example, if you write ``structure-modification
-% operation'', the word structure-modification will never be hyphenated).
-% You need a special package to hyphenate those words.
-\hyphenation{di-gi-taa-li-sta yksi-suun-tai-sta}
-
-
-
-% The preamble ends here, and the document begins.
-% Place all formatting commands and such before this line.
-% ------------------------------------------------------------------
+%% Kaikki mikä paperille tulostuu, on tämän jälkeen
+%%
+%% Output starts here
 \begin{document}
-% This command adds a PDF bookmark to the cover page. You may leave
-% it out if you don't like it...
-\pdfbookmark[0]{Cover page}{bookmark.0.cover}
-% This command is defined in aalto-thesis.sty. It controls the page
-% numbering based on whether the doublenumbering option is specified
-\startcoverpage
 
-% Cover page
-% ------------------------------------------------------------------
-% Options: finnish, english, and swedish
-% These control in which language the cover-page information is shown
-\coverpage{english}
+%% Korjaa vastaamaan korkeakouluasi, jos automaattisesti asetettu nimi on 
+%% virheellinen 
+%%
+%% Change the school field to describe your school if the autimatically 
+%% set name is wrong
+% \university{aalto University}{aalto-Yliopisto}
+% \school{School of Electrical Engineering}{SähköTekniikan korkeakoulu}
 
+%% Vain kandityölle: Korjaa seuraavat vastaamaan koulutusohjelmaasi
+%%
+%% Only for B.Sc. thesis: Choose your degree programme. 
+\degreeprogram{Electronics and electrical engineering}%
+{Elektroniikka ja sähkötekniikka}
+%%
 
-% Abstracts
-% ------------------------------------------------------------------
-% Include an abstract in the language that the thesis is written in,
-% and if your native language is Finnish or Swedish, one in that language.
+%% Vain DI/M.Sc.- ja lisensiaatintyölle: valitse laitos, 
+%% professuuri ja sen professuurikoodi. 
+%%
+%% Only for M.Sc. and Licentiate thesis: Choose your department,
+%% professorship and professorship code. 
+\department{Department of Radio Science and Technology}%
+{Radiotieteen ja -tekniikan laitos}
+\professorship{Circuit theory}{Piiriteoria}
+\code{S-55}
+%%
 
-% Abstract in English
-% ------------------------------------------------------------------
-\thesisabstract{english}{
+%% Valitse yksi näistä kolmesta
+%%
+%% Choose one of these:
+%\univdegree{BSc}
+\univdegree{MSc}
+%\univdegree{Lic}
 
-%TODO
+%% Oma nimi
+%%
+%% Should be self explanatory...
+\author{Teemu Teekkari}
 
-A dissertation or thesis is a document submitted in support of candidature
-for a degree or professional qualification presenting the author's research and
-findings. In some countries/universities, the word thesis or a cognate is used
-as part of a bachelor's or master's course, while dissertation is normally
-applied to a doctorate, whilst, in others, the reverse is true.
+%% Opinnäytteen otsikko tulee vain tähän. Älä tavuta otsikkoa ja
+%% vältä liian pitkää otsikkotekstiä. Jos latex ryhmittelee otsikon
+%% huonosti, voit joutua pakottamaan rivinvaihdon \\ kontrollimerkillä.
+%% Muista että otsikkoja ei tavuteta! 
+%% Jos otsikossa on ja-sana, se ei jää rivin viimeiseksi sanaksi 
+%% vaan aloittaa uuden rivin.
+%% 
+%% Your thesis title. If the title is very long and the latex 
+%% does unsatisfactory job of breaking the lines, you will have to
+%% break the lines yourself with \\ control character. 
+%% Do not hyphenate titles.
+\thesistitle{Thesis template}{Opinnäyteohje}
 
-\fixme{Abstract text goes here (and this is an example how to use fixme).}
-Fixme is a command that helps you identify parts of your thesis that still
-require some work. When compiled in the custom \texttt{mydraft} mode, text
-parts tagged with fixmes are shown in bold and with fixme tags around them. When
-compiled in normal mode, the fixme-tagged text is shown normally (without
-special formatting). The draft mode also causes the ``Draft'' text to appear on
-the front page, alongside with the document compilation date. The custom
-\texttt{mydraft} mode is selected by the \texttt{mydraft} option given for the
-package \texttt{aalto-thesis}, near the top of the \texttt{thesis-example.tex}
-file.
+\place{Espoo}
+%% Kandidaatintyön päivämäärä on sen esityspäivämäärä! 
+%% 
+%% For B.Sc. thesis use the date when you present your thesis. 
+\date{20.3.2012}
 
-The thesis example file (\texttt{thesis-example.tex}), all the chapter content
-files (\texttt{1introduction.tex} and so on), and the Aalto style file
-(\texttt{aalto-thesis.sty}) are commented with explanations on how the Aalto
-thesis works. The files also contain some examples on how to customize various
-details of the thesis layout, and of course the example text works as an
-example in itself. Please read the comments and the example text; that should
-get you well on your way!}
+%% Kandidaattiseminaarin vastuuopettaja tai diplomityön valvoja.
+%% Huomaa tittelissä "\" -merkki pisteen jälkeen, 
+%% ennen välilyöntiä ja seuraavaa merkkijonoa. 
+%% Näin tehdään, koska kyseessä ei ole lauseen loppu, jonka jälkeen tulee 
+%% hieman pidempi väli vaan halutaan tavallinen väli.
+%%
+%% B.Sc. or M.Sc. thesis supervisor 
+%% Note the "\" after the comma. This forces the following space to be 
+%% a normal interword space, not the space that starts a new sentence. 
+\supervisor{Prof.\ Pirjo Professori}{Prof.\ Pirjo Professori}
 
-% Abstract in Finnish
-% ------------------------------------------------------------------
-\thesisabstract{finnish}{
-%TODO
-}
+%% Kandidaatintyön ohjaaja(t) tai diplomityön ohjaaja(t)
+%% 
+%% B.Sc. or M.Sc. thesis advisors(s). 
+%%
+%% Note that there has been a change in the official EN translation
+%% of the Finnish title ``ohjaaja'' which in the previous version (1.5) 
+%% of this document was called ``instructor''. The recommended
+%% translation is now ``advisor''.  
+%% However, the LaTeX internal variable remains \instructor
+%% as there is little point to change the variable name. 
+%%
+%\instructor{Prof. Pirjo Professori}{Prof. Pirjo Professori}
+\instructor{D.Sc.\ (Tech.) Olli Ohjaaja}{TkT Olli Ohjaaja}
+%\instructor{M.Sc.\ (Tech.) Polli Pohjaaja}{DI Polli Pohjaaja}
 
-% Acknowledgements
-% ------------------------------------------------------------------
-% Select the language you use in your acknowledgements
-\selectlanguage{english}
+%% Aaltologo: syntaksi:
+%% \uselogo{aaltoRed|aaltoBlue|aaltoYellow|aaltoGray|aaltoGrayScale}{?|!|''}
+%% Logon kieli on sama kuin dokumentin kieli
+%%
+%% Aalto logo: syntax:
+% \uselogo{aaltoRed|aaltoBlue|aaltoYellow|aaltoGray|aaltoGrayScale}{?|!|''}
+%% Logo language is set to be the same as the document language.
+\uselogo{aaltoRed}{''}
 
-% Uncomment this line if you wish acknoledgements to appear in the
-% table of contents
-%\addcontentsline{toc}{chapter}{Acknowledgements}
-
-% The star means that the chapter isn't numbered and does not
-% show up in the TOC
-\chapter*{Acknowledgements}
-
-I wish to thank all students who use \LaTeX\ for formatting their theses,
-because theses formatted with \LaTeX\ are just so nice.
-
-Thank you, and keep up the good work!
-\vskip 10mm
-
-\noindent Espoo, \DATE
-\vskip 5mm
-\noindent\AUTHOR
-
-% Acronyms
-% ------------------------------------------------------------------
-% Use \cleardoublepage so that IF two-sided printing is used
-% (which is not often for masters theses), then the pages will still
-% start correctly on the right-hand side.
-\cleardoublepage
-% Example acronyms are placed in a separate file, acronyms.tex
-% \input{acronyms}
-
-\addcontentsline{toc}{chapter}{Abbreviations and Acronyms}
-\chapter*{Abbreviations and Acronyms}
-
-% The longtable environment should break the table properly to multiple pages,
-% if needed
-
-\noindent
-\begin{longtable}{@{}p{0.25\textwidth}p{0.7\textwidth}@{}}
-2k/4k/8k mode & COFDM operation modes \\
-3GPP & 3rd Generation Partnership Project \\
-ESP & Encapsulating Security Payload; An IPsec security protocol \\
-FLUTE & The File Delivery over Unidirectional Transport protocol \\
-e.g.& for example (do not list here this kind of common acronymbs or abbreviations, but only those that are essential for understanding the content of your thesis. \\
-note & Note also, that this list is not compulsory, and should be omitted if you have only few abbreviations
-
-\end{longtable}
+%% Tehdään kansilehti
+%%
+%% Create the coverpage
+\makecoverpage
 
 
-% Table of contents
-% ------------------------------------------------------------------
-\cleardoublepage
-% This command adds a PDF bookmark that links to the contents.
-% You can use \addcontentsline{} as well, but that also adds contents
-% entry to the table of contents, which is kind of redundant.
-% The text ``Contents'' is shown in the PDF bookmark.
-\pdfbookmark[0]{Contents}{bookmark.0.contents}
+%% Suomenkielinen tiivistelmä
+%% 
+%% Finnish abstract
+%%
+%% Tiivistelmän avainsanat
+\keywords{Avainsanoiksi valitaan kirjoituksen sisältöä keskeisesti kuvaavia
+käsitteitä}
+%% Tiivistelmän tekstiosa
+\begin{abstractpage}[finnish]
+  Tiivistelmässä on lyhyt selvitys (noin 100 sanaa)
+  kirjoituksen tärkeimmästä sisällöstä: mitä ja miten on tutkittu,
+  sekä mitä tuloksia on saatu. 
+  Tiivistelmässä on lyhyt selvitys (noin 100 sanaa)
+  kirjoituksen tärkeimmästä sisällöstä: mitä ja miten on tutkittu,
+  sekä mitä tuloksia on saatu. 
+
+  Tiivistelmässä on lyhyt selvitys (noin 100 sanaa)
+  kirjoituksen tärkeimmästä sisällöstä: mitä ja miten on tutkittu,
+  sekä mitä tuloksia on saatu. 
+  Tiivistelmässä on lyhyt selvitys (noin 100 sanaa)
+  kirjoituksen tärkeimmästä sisällöstä: mitä ja miten on tutkittu,
+  sekä mitä tuloksia on saatu. 
+  Tiivistelmässä on lyhyt selvitys (noin 100 sanaa)
+  kirjoituksen tärkeimmästä sisällöstä: mitä ja miten on tutkittu,
+  sekä mitä tuloksia on saatu. 
+\end{abstractpage}
+
+%% Pakotetaan uusi sivu varmuuden vuoksi, jotta 
+%% mahdollinen suomenkielinen ja englanninkielinen tiivistelmä
+%% eivät tule vahingossakaan samalle sivulle
+%%
+%% Force new page so that English abstract starts from a new page
+\newpage
+%
+%% English abstract, uncomment if you need one. 
+%% 
+%% Abstract keywords
+\keywords{Resistor, Resistance,\\ Temperature}
+%% Abstract text
+\begin{abstractpage}[english]
+ Your abstract in English. Try to keep the abstract short, approximately 
+ 100 words should be enough. Abstract explains your research topic, 
+ the methods you have used, and the results you obtained.  
+\end{abstractpage}
+%% Note that 
+%% if you are writting your master's thesis in English place the English
+%% abstract first followed by the possible Finnish abstract
+
+%% Esipuhe 
+%%
+%% Preface
+\mysection{Esipuhe}
+%\mysection{Preface}
+Haluan kiittää Professori Pirjo 
+Professoria ja ohjaajaani Olli Ohjaajaa hyvästä ja 
+huonosta ohjauksesta.\\
+
+\vspace{5cm}
+Otaniemi, 9.3.2012
+
+\vspace{5mm}
+{\hfill Teemu T.\ A.\ Teekkari \hspace{1cm}}
+
+%% Pakotetaan varmuuden vuoksi esipuheen jälkeinen osa
+%% alkamaan uudelta sivulta
+%%
+%% Force new page after preface
+\newpage
+
+
+%% Sisällysluettelo
+%% addcontentsline tekee pdf-tiedostoon viitteen sisällysluetteloa varten
+%% 
+%% Table of contents. 
+\addcontentsline{toc}{section}{Sisällysluettelo}
+%\addcontentsline{toc}{section}{Contents}
+%% Tehdään sisällysluettelo
+%%
+%% Create it. 
 \tableofcontents
 
-% List of tables
-% ------------------------------------------------------------------
-% You only need a list of tables for your thesis if you have very
-% many tables. If you do, uncomment the following two lines.
-% \cleardoublepage
-% \listoftables
 
-% Table of figures
-% ------------------------------------------------------------------
-% You only need a list of figures for your thesis if you have very
-% many figures. If you do, uncomment the following two lines.
-% \cleardoublepage
-% \listoffigures
+%% Symbolit ja lyhenteet
+%%
+%% Symbols and abbreviations
+\mysection{Symbolit ja lyhenteet}
+%\mysection{Symbols and abbreviations}
+\subsection*{Symbolit}
+%\subsection*{Symbols}
 
-% The following label is used for counting the prelude pages
-\label{pages-prelude}
+\begin{tabular}{ll}
+%$|a_{ij}|^2$, $|a_i|^2$ & probability of two electrons having momenta
+%    $\boldsymbol p_i$ and $\boldsymbol p_j$ ($\boldsymbol p_i$ for $|a_i|^2$) \\
+%                 & at any given instant \\
+$\mathbf{B}$  & magneettivuon tiheys  \\
+$c$              & valon nopeus tyhjössä $\approx 3\times10^8$ [m/s]\\
+%$p$              & magnitude of momentum \\
+%$\boldsymbol p$, $\boldsymbol p_i$, $\boldsymbol p_i^{'}$  & momentum vector \\
+%$p$              & magnitude of momentum \\
+%$\boldsymbol p$, $\boldsymbol p_i$, $\boldsymbol p_i^{'}$  & momentum vector \\
+%$\boldsymbol P$  &  \\
+%$p_{\mathrm{F}}$ & Fermi momentum \\
+$\omega_{\mathrm{D}}$    & Debye-taajuus \\
+$\omega_{\mathrm{latt}}$ & hilan keskimääräinen fononitaajuus \\
+$\uparrow$       & elektronin spinin suunta ylöspäin\\
+$\downarrow$     & elektronin spinin suunta alaspäin
+\end{tabular}
+
+\subsection*{Operaattorit}
+%\subsection*{Opetators}
+
+\begin{tabular}{ll}
+$\nabla \times \mathbf{A}$              & vektorin $\mathbf{A}$ roottori\\
+$\displaystyle\frac{\mbox{d}}{\mbox{d} t}$ & derivaatta muuttujan $t$ suhteen\\
+[3mm]
+$\displaystyle\frac{\partial}{\partial t}$  & osittaisderivaatta muuttujan $t$ suhteen \\[3mm]
+$\sum_i $                       & Summa indeksin $i$ yli\\
+$\mathbf{A} \cdot \mathbf{B}$    & vektorien $\mathbf{A}$ ja $\mathbf{B}$ pistetulo
+\end{tabular}
+
+\subsection*{Lyhenteet}
+%\subsection*{Abbreviations}
+
+\begin{tabular}{ll}
+AC         & vaihtovirta \\
+APLAC      & an object-oriented analog circuit simulator and design tool \\
+           & (originally Analysis Program for Linear Active Circuits) \\
+BCS        & Bardeen-Cooper-Schrieffer \\ %% tavuviiva - nimien välissä 
+DC         & tasavirta \\
+TEM        & transverse eletromagnetic
+\end{tabular}
+
+
+%% Sivulaskurin viilausta opinnäytteen vaatimusten mukaan:
+%% Aloitetaan sivunumerointi arabialaisilla numeroilla (ja jätetään
+%% leipätekstin ensimmäinen sivu tyhjäksi, 
+%% ks. alla \thispagestyle{empty}).
+%% Pakotetaan lisäksi ensimmäinen varsinainen tekstisivu alkamaan 
+%% uudelta sivulta clearpage-komennolla. 
+%% clearpage on melkein samanlainen kuin newpage, mutta 
+%% flushaa myös LaTeX:n floatit 
+%% 
+%% Corrects the page numbering, there is no need to change these
 \cleardoublepage
-
-%%%%%%%%%%%%%%%%% The main content starts here %%%%%%%%%%%%%%%%%%%%%
-% ------------------------------------------------------------------
-% This command is defined in aalto-thesis.sty. It controls the page
-% numbering based on whether the doublenumbering option is specified
-\startfirstchapter
-
-% Add headings to pages (the chapter title is shown)
-\pagestyle{headings}
-
-% The contents of the thesis are separated to their own files.
-% Edit the content in these files, rename them as necessary.
-% ------------------------------------------------------------------
-
-% \input{1introduction.tex}
-
-\chapter{Introduction}
-\label{chapter:intro}
-
-This is my master's thesis, and I am very proud of it. Of course,
-when I write my \emph{real} master's thesis, I will not use the
-singular pronoun \emph{I}, but rather try to avoid referring to myself
-and speak of the research \emph{we} have conducted---I rarely work
-alone, after all. Yet, both \emph{I} and \emph{we} are correct, and
-it depends on the instructor and the supervisor (of course from you,
-too), which one they would prefer. Anyway, the tense should be active,
-and passive sentenses should be avoided (especially, writing sentences
-where the subject is presented with by preposition), so often you
-cannot avoid choosing between the pronouns. Life is strange, but there
-you have it.
-
-By the way, the preferred order of writing your master's thesis is
-about the same as the outline of the thesis: you first discover your
-problem and write about that, then you find out what methods you
-should use and write about that. Then you do your implementation, and
-document that, and so on. However, the abstract and introduction are
-often easiest to write last. This is because these really cover the
-entire thesis, and there is no way you could know what to put in your
-abstract before you have actually done your implementation and
-evaluation. Rarely anyone write the thesis from the beginning to the
-end just one time, but the writing is more like process, where every
-piece of text is written at least twice. Be also prepared to delete
-your own text. In the first phase, you can hide it into comments that
-are started with \% but during the writing, the many comments should be
-visible for your helpers, the instructor and supervisor.
-
-The introduction in itself is rarely very long; two to five pages often
-suffice.
+\storeinipagenumber
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 
-\section{Problem statement}
+%% Leipäteksti alkaa
+%%
+%% Text body begins. Note that since the text body
+%% is mostly in Finnish the majority of comments are
+%% also in Finnish after this point. There is no point in explaining
+%% Finnish-language specific thesis conventions in English.
+\section{Johdanto}
+%\section{Introduction}
 
-Undergraduate students studying technical subjects do not consider typography
-very interesting these days, and therefore the typographical quality of many
-theses is unacceptably low.
-We plan to rectify this situation somewhat by providing a decent-quality
-example thesis outline for students.
-We expect that the typographical quality of the master's theses will
-dramatically increase as the new thesis outline is taken into use.
+%% Ensimmäinen sivu tyhjäksi
+%% 
+%% Leave first page empty
+\thispagestyle{empty}
 
-\section{Helpful hints}
+Tämän tekstin lähteenä oleva tiedosto on opinnäytteen
+pohja, jota voi käyttää kandidaatintyössä, diplomityössä ja
+lisensiaatintyössä. Tekstin 
+lähteenä oleva tiedosto on kirjoitettu  \LaTeX-tiedoston rakenteen
+opiskelemista ajatellen. Tiedoston kommentit sisältävät
+tietoa, joka on hyödyllistä opinnäytettä kirjoitettaessa. 
 
-Read the information from the university master's thesis
-pages~\cite{ThesisInstructions} before starting the thesis. You
-should also go through the thesis grading
-instructions~\cite{ThesisGrading} together with your instructor and/or
-supervisor in the beginning of your work.
+%% Esimerkki luettelosta. Lyhyt ajatusviiva on käytössä
+%% luettelossa, ja se on pituudeltaan
+%% en dash. Merkitään latex-koodissa --. 
+Johdanto selvittää samat asiat kuin tiivistelmä, mutta
+laveammin. Johdannossa kerrotaan yleensä seuraavat asiat
 
-\section{Structure of the Thesis}
-\label{section:structure}
-
-You should use transition in your text, meaning that you should help
-the reader follow the thesis outline. Here, you tell what will be in
-each chapter of your thesis.
-
-
-
-% \input{2background.tex}
-
-\chapter{Background}
-\label{chapter:background}
-
-Petrofysics is combination of geology and study of how rocks interact with liquids. 
-It helps us understand how reservoirs filled with hydrocarbons (gases, oil) are formed.
-Reservoirs are complex three-dimensional strucktures filled with pores.
-
--historiasta?
--miten öljykenttä moudostuu?
-
--porosity
--permeability
--resistivity
--water saturation
--wettability
-
-Magnetic susceptibility:
-
-Magnetic susceptibility is by definition magnetization divided by the field it is applied with.
-Mathematically it can be expressed as  $\kappa$ that can be aguired by dividing induced magnetization 
-per volume unit of measured sample (M) with applied magnetic field intensity (H)\cite{Lascu2009}:
-
-$\kappa$ = $\frac{M}{H}$
-
-$\kappa$ has no dimensions since M and H have the same unit A/m. However if we know density of the 
-material($\rho$) we may calculate mass specific magnetic susceptibility with following\cite{Lascu2009}:
-
-$\chi$ = $\frac{\kappa}{\rho}$
-
-All substances may be categorised by their magnetic properties. Ferromagnetic minerals remember 
-magnetic field that was applied on them by being able to contain a magnetic remnance. Good examples of 
-ferromagnets are oxides such as magnetite (Fe$_3$O$_4$), hematite (Fe$_2$O$_3$) and sulfides like pyrrhotite (Fe$_7$S$_8$) and greigite (Fe$_3$S$_4$). Ferromagnets have strongly 
-positive magnetic susceptibility. Paramagnetic materials allow only weak interaction between metal atoms. Their
-magnetic susceptibility is weakly positive. Paramagnetic minerals include Fe-Ti oxides (illmenite), Fe-Mn carbonates 
-(siderite, rhodochrosite) and Fe sulfides (e.g. pyrite). Dimagnetic substances posses negative magnezitation when 
-they are applied a weak magnetic field. They are minerals that do not contain iron, ogranic materials and artificial 
-materials such as polyethylene and polycarbonates. According to Lascu\cite{Lascu2009}  dimagnetic materials are 
-especially important because paleolimnology workers sometimes mistake errors caused by dimagnetic materials to be 
-caused by errors in the instruments. \cite{Lascu2009}
-%gabbaleen vaihto 8=========D
-
-The problem must have some background, otherwise it is not
-interesting. You can explain the background here. Probably you should
-change the title to something that describes more the content of this
-chapter. Background consists of information that help other masters of
-the same degree program to understand the rest of the thesis.
-
-Transitions mentioned in Section~\ref{section:structure} are used also
-in the chapters and sections. For example, next in this chapter we
-tell how to use English language, how to find and refer to sources,
-and enlight different ways to include graphics in the thesis.
-
-\section{Language and Structure}
-
-Moreover, the transitions are also used in the paragraph and the
-sentence level meaning that all the text is linked together. For example,
-the word ``moreover'' here is one way, but of course you should use
-variation in the text. Examples of transitional devices (words) and
-their use can be found from writing guides, e.g. from the Online
-Writing Lab
-(OWL)\footnote{http://owl.english.purdue.edu/owl/resource/574/02/} of
-Purdue University or Strunk's Elements of
-Style\footnote{http://www.bartleby.com/141/}. Remember that footnotes
-are additional information, and they are seldom used. If you refer to a source, you do no
-not use footnote. The right command for the references is \emph{cite}.
-
-The language used in the thesis should be technical (or
-scientifical). For example, the abreviations aren't used but all them
-are written open (i.e. ``are not''). Since the content itself is often
-hard to understand (and explain), the sentences should not be very
-long, use complex language with several examples embedded in the same
-sentence, and, also, seldom used words and weird euphemism or paraphrases
-can make the sentence hard to follow and to read it with only one
-time, and making everything even harder to understand all this without
-any punctuation marks makes the instructor cry and finally after
-trying to correct the language, you will get boomerang, and everyone's
-time has just been wasted.
-
-Please use proofreaders before sending even your unfinished version to
-the instructor and/or supervisor. You will get better comments when
-they do not need first proofread your text. Moreover, they can
-consentrate to the content better if the language and spelling
-mistakes are not distracting the reading. Several editors have their
-own proofreading tools, e.g. ispell in emacs. You can also use
-Microsoft Word to proofread your thesis: it can correct also some
-grammatical errors and not just misspelled words.
-
-Note also that if you have a section or a subsection, you have to have
-at least two of them, or otherwise the section or subsection title is
-unnecessary. Same with the paragraphs an: you should not have sections
-with only one paragraphe, and single sentence paragraph. Furthermore,
-always write some text after the title before the next level title.
-
-\section{Finding and referring to sources}
-
-Never ever copy anything into your theses from somebody else's text
-(nor your own previously published text). Never. Not even for starting
-point to be rewritten later. The risk is that you forgot the copied
-text to your thesis and end up to be accused of plagiarism. Plagiarism
-is a serious crime in studies and science and can ruin your career
-even its beginning. To repeate: never cut and paste text into your
-thesis!
-
-\subsection{Finding sources}
-
-All work is based on someone else's work. You should find the relevant
-sources of your field and choose the best of them. Also, you should
-refer to the original source where a fact has been mentioned first
-time. Remember source evaluation (criticism) with all sources you
-find.
-
-Good starting points for finding references in computer science are:
 \begin{itemize}
-% You can use this command to set the items in the list closer to each other
-% (ITEM SEParation, the vertical space between the list items)
-\setlength{\itemsep}{0pt}
-\item Nelli Portal (Aalto Library): \url{http://www.nelliportaali.fi}
-\item ACM Digital library: \url{http://portal.acm.org/}
-\item IEEExplore: \url{http://ieeexplore.ieee.org}
-\item ScienceDirect: \url{http://www.sciencedirect.com/}
-\item \ldots although Google Scholar (\url{http://scholar.google.com/}) will
-find links to most of the articles from the abovementioned sources, if you
-search from within the university network
+\item[--]Tutkimuksen taustaa ja tutkimusaiheen yleisluonteinen esittely
+\item[--]Tutkimuksen tavoitteet
+\item[--]Pääkysymys ja osaongelmat
+\item[--]Tutkimuksen rajaus ja keskeiset käsitteet.
 \end{itemize}
 
-Some of the publishers do not offer all the text of the articles
-freely, but the library has agreed on the rights to use the whole
-text. Thus, you should sometimes use computers in the domain of the
-university in order to get the full text. Sometimes the Nelli Portal
-can also help getting the whole article instead of just the abstract.
-The library has also brief instrucions how to find
-information~\cite{howfindinfo}.
-
-Instead of normal Google, use Google Scholar
-(\url{http://scholar.google.fi/}). It finds academic publications whereas
-normal Google find too much commercial advertisements or otherwise
-biased information. Wikipedia articles should be referred to in the master
-thesis only very, very seldomly. You can use Wikipedia for understanding
-some basics and finding more sources, but often you cannot be sure if
-the article is correct and unbiased.
-
-One important part of the sources that you have found is the reference
-list. This way you can find the original sources that all the other
-research of the field refer. Often you can also find more information
-with the name of the researchers that are often referred in the
-articles.
-
-\subsection{Referring to sources}
-
-The main point in referring to sources is to separate your own
-thinking and text from that of others. Facts of the research area can
-be given without reference, but otherwise you should refer to
-sources. This means two things: marking the source in the text where
-it has been used, and listing the sources usually in the end of the
-thesis in a way that help the reader to find the original source.
-
-There are several bibliography styles, meaning how to form the
-bibliography in the end of the thesis. Aalto's library has good
-instructions for many styles~\cite{bibinstructions}. You should ask
-from your supervisor or instructors which style you should use. This
-thesis template uses the number style that is often used in software
-engineering. The other style also used in the CS field,
-e.g. usability, is the Harvard style where instead of numbers, the
-reference is marked into the text with author's name and publishing
-year. Other areas use also many other styles for making the lists and
-marking the references.
-
-In addition to the list in the end of the thesis, you have to mark the
-source in the text where the source is used. There are three places
-for the reference: in a sentence before the period, in the end of a
-sentence after the period, or in the end of a paragraph. All of them
-have different meaning. The main point is that first you paraphrase
-the source using your own words and then mark the source. Next, we
-give short examples that are marked with \emph{emphasised text}.
-
-\emph{Haapasalo~\cite{HaapasaloThesis} researched database algorithms
-  that allows use of previous versions of the content stored in the
-  database.} This kind of marking means that this paragraph (or until
-the next reference is given) is based on the source mentioned in the
-beginning. Giving the source you should use only the family name of
-the first author of the article, and not give any hints about what is
-the type of the article that is referred.
-
-\emph{B+-trees offers one way to index data that is stored in to a
-  database. Multiversion B+-trees (MVBT) offer also a way to restore
-  the data from previous versions of the database. Concurrent MVBT
-  allows many simultaneous updates to the database that is was not
-  possible with MVBT.~\cite{HaapasaloThesis}} When the marking is
-after the period, the reference is retrospective: all the paragraph
-(or after previous reference marking) is based on the source given in
-its end. If the content is very broad, you can start with saying
-\emph{According to Haapasalo}, then continue referring the source with
-several separate sentences, and in the end put the marking of your
-source \emph{ that shows that CMVBT are the
-  best. ~\cite{HaapasaloThesis}}.
-
-If your paragraph has several sources, the above mentioned styles are
-not proper. The reader of your thesis cannot know which of your
-sources give which of the statements. In this case, it is better to
-use more finegraded refering where the reference markings that are
-embedded in the sentences. For example, \emph{the multiversion B+-tree
-  (MVBT) index of Becker et al.~\cite{becker:1996:mvbt} allows database
-  users to query old versions of the database, but the index is not
-  transactional.
-  It's successor, the transactional MBVT (TMVBT), allows a single transaction
-  running in its own thread or process to update the database concurrently
-  with other transactions that only read the
-  database~\cite{haapasalo:2009:tmvbt}.
-  Further development, titled the concurrent MBVT (CMVBT),
-  allows several transactions to perform updates to the database at the same
-  time~\cite{HaapasaloThesis}}.
-  Here, the references are marked before
-  the period in the sentences where they are used.
-
-Finally, direct quotes are allowed. However, often you should avoid
-them since they do not usually fit in to your text very well. Using
-direct quotes has two tricks: quotation marks and the source. \emph{
-  ``Even though deletions in a multiversion index must not physically
-  delete the history of the data items, queries and range scans can
-  become more efficient, if the leaf pages of the index structure are
-  merged to retain optimality.''~\cite{HaapasaloThesis}} Quotes are
-hard to make neatly since you should use only as much as needed
-without changing the text. Moreover, you often do not really
-understand what the author has mentioned with his wordings if you
-cannot write the same with your own words. Remember also that never
-cut and paste anything without marking the quotation marks right away,
-and in general, never cut and paste anything at all!
-
-Sometimes getting the original source can be almost impossible. In an
-extremely desperate situation, you can refer with structure \emph{mr
-  X~[\ldots] according to ms Y~[\ldots] defined that}, if you find a
-source that refers to the original source. Note also that the
-reference marking is never used as sentence element (example of how
-\textbf{not} to do it: \emph{\cite{HaapasaloThesis} describes
-an optimal algorithm for indexing multiversiond databases.}).
+Lyhyiden opinnäytteiden johdannot ovat yleensä liian pitkiä, joten
+johdannon paisuttamista on vältettävä. Diplomityöhön sopii johdanto,
+joka on 2--4 sivua. %% tässä on myös lyhyt ajatusviiva l. en dash.
+Kandidaatintyön johdannon on oltava diplomityön
+johdantoa lyhyempi. Sopivasti tiivistetty johdanto ei kaipaa alaotsikoita.
 
 
+%% Opinnäytteessä jokainen osa alkaa uudelta sivulta, joten \clearpage
+%%
+%% In a thesis, every section starts a new page, hence \clearpage
+\clearpage
 
-% \input{3environment.tex}
+\section{Aikaisempi tutkimus}
+% \section{Background}
 
-\chapter{Environment}
-\label{chapter:environment}
+Tässä osassa selvitetään, mitä tutkimuksen kohteena olevasta
+aiheesta tiedetään entuudestaan. Selvityksen tulee kattaa
+tasapainoisesti koko tutkimuskenttä. 
 
-A problem instance is rarely totally independent of its environment.
-Most often you need to describe the environment you work in, what
-limits there are and so on. This is a good place to do that. First we
-tell you about the LaTeX working environments and then is an example
-from an thesis written some years ago.
+Kun opinnäytetyötä kirjoitetaan, on noudatettava 
+ohjeita, jotka koskevat opinnäytteen rakennetta,
+käytäntöjä, muotoseikkoja sekä ulkoasua. Esitellään näitä
+ohjeita tarkemmin.
 
+%% Osan hienojaottelua alaosiin, eikä välttämättä edes tarpeen,
+%% tässä vain esimerkkinä. Käytä harkintasi mukaan
+%% osan jaottelua, joskus alaotsikot selventävät asioita ja
+%% joskus vain sirpaloittavat tarpeettomasti tekstiä.
+%%  Jaottelu menee seuraavasti:
+%% \section{osan otsikko} 
+%% \subsection{alaotsikko}
+%% \subsubsection{ala-alaotsikko}
+%% Tätä pitemälle ei pidä jaotella. 
+%%
+%% Three levels of hierarchy in sectioning should be enough
 
-\section{LaTeX working environments}
-\label{sec:environments}
+\subsection*{Rakenne}
 
-To create \LaTeX\ documents you need two things: a \LaTeX\ environment for
-compiling your documents and a text editor for writing them.
+Opinnäytteen rakenteen tulee olla hyvän tieteellisen
+kirjoittamisen käytännön mukainen ja sisältää vähintään seuraavat
+osat:
 
-\subsection{Environment}
+\begin{enumerate}
+\item Nimiölehti
+\item Tiivistelmä
+\item Sisällysluettelo
+\item Symboli- ja lyhenneluettelo
+\item \label{a} Johdanto
+%% Tässä alla on esimerkki lainausmerkkien käytöstä. Suomalaisen tekstin
+%% lainausmerkit eivät mene oikein latexissa (tai monissa muissakaan
+%% julkaisujärjestelmissä) kun käytetään
+%% "-merkkiä, koska latex käyttää amerikkalaista lainausmerkkien
+%% tulostustapaa. Vaihtoehtona voi käyttää kulmalainausmerkkejä, jotka
+%% myös tulostuvat oikein.
+\item  Aikaisempi tutkimus. Työn luonteen niin vaatiessa otsikko voi olla myös
+        >>Teoreettinen tausta>>  tai näiden otsikoiden yhdistelmä.
+\item Tutkimusaineisto ja -menetelmät %% yhdysmerkki - eli tavuviiva. 
+\item Tulokset
+\item \label{o} Tarkastelu. Työn luonteen niin vaatiessa otsikko voi
+      olla myös >>Johtopäätökset>> tai >>Yhteenveto>> 
+      tai edellä mainittujen otsikoiden yhdistelmä.
+\item Lähteet
+\item Liitteet.
+\end{enumerate}
 
-Fortunately \LaTeX\ can nowadays be found for any (modern) computer
-environment, be it Linux, Windows, or Macintosh.
-For Linuxes (and other Unix clones) and Macs, I'd recommend \emph{TeX
-Live}~\cite{TeXLive}, which is the current default \LaTeX\ distribution for
-many Linux flavors such as Fedora, Debian, Ubuntu, and Gentoo.
-TeX Live is the replacement for the older \emph{teTeX}, which is
-no longer developed.
+Tiivistelmän ja symboli- sekä lyhenneluetteloiden 
+väliin voi sijoittaa halutessaan esipuheen.  
 
-TeX Live works also for Windows machines (at least according to their web
-site); however, I have used \emph{MiKTeX}~\cite{MiKTeX} and can recommend it
-for Windows.
-MiKTeX has a nice package manager and automatically fetches missing packages
-for you.
+Työn osat \ref{a}-\ref{o} muodostavat \textit{tekstiosan.}  Työn
+yksittäisiä osia voidaan jakaa alaotsikoilla alaosiin, joita ei ole
+yllä esitetty. Alaotsikoiden käyttäminen selventää parhaimmillaan
+tekstiä, ja pahimmillaan sirpaloittaa sitä.  Sirpaloitumista voi estää
+huolehtimalla siitä, että samalla sivulla ei esiinny useampaa
+alaotsikkoa.  Tekstin jäsentelyssä on yleensä ongelmia, jos osassa on
+vain yksi alaosa, tai kirjoittaja joutuu käyttämään useampaa kuin
+kahta tasoa (osa ja alaosat): alaosien alaosat ovat harvoin tarpeen.
+\subsection*{Sivut ja kirjaintyypit}
 
-\subsection{Editor}
+Opinnäytteen tulee olla kirjoitettu koneella tai
+tekstinkäsittelyohjelmalla yksipuolisesti A4-kokoiselle paperille.
+Kandidaatintyön tekstiosan sopiva pituus on noin 15--20 sivua ja
+diplomityön noin 60 sivua. Työtä ei ole syytä tarpeettomasti pidentää.
 
-You can write \LaTeX\ documents with any text editor you like, but having
-syntax coloring options and such really helps a lot.
-My personal favourite for editing \LaTeX\ is the
-\emph{TeXlipse}~\cite{TeXlipse} plugin for the Eclipse IDE~\cite{Eclipse}.
-Eclipse is an open-source integrated development environment (IDE) initially
-created for writing Java code, but it currently has support for editing
-languages such as C, C++, JavaScript, XML, HTML, and many more.
-The TeXlipse plugin allows you to edit and compile \LaTeX\ documents directly
-in Eclipse, and compilation errors and warnings are shown in the Eclipse
-\emph{Problems} dialog so that you can locate and fix the issues easily.
-The plugin also supports reference traversal so that you can locate the source
-line where a label or a citation is defined.
-
-Eclipse is an entire development environment, so it may feel a bit heavy-weight
-for editing a document.
-If you are looking for a more light-weight option, check out TeXworks.
-TeXworks is a \LaTeX\ editor that is packaged with the newer MiKTeX
-distributions, and it can be acquired from \url{http://www.tug.org/texworks/}.
-
-And if you are attached to your \emph{emacs} or \emph{vim} editor, you
-can of course edit your \LaTeX\ documents with them.
-Emacs at least has syntax coloring and you can compile your document with a key
-binding, so this may be a good option if you prefer working with the standard
-Linux text editors.
-
-\section{Graphics}
-
-When you use \texttt{pdflatex} to render your thesis, you can include PDF images
-directly, as shown by Figure~\ref{fig:indica_model} below.
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=\textwidth]{example_indica_model.pdf}
-    \caption{The INDICA two-layered value chain model.}
-    \label{fig:indica_model}
-  \end{center}
-\end{figure}
-
-You can also include JPEG or PNG files, as shown by Figure~\ref{fig:eeyore}.
-
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics[width=9cm]{example_ihaa.jpg}
-    \caption{Eeyore, or Ihaa, a very sad donkey.}
-    \label{fig:eeyore}
-  \end{center}
-\end{figure}
-
-You can create PDF files out of practically anything.
-In Windows, you can download PrimoPDF or CutePDF (or some such) and install a
-printing driver so that you can print directly to PDF files from any
-application. There are also tools that allow you to upload documents in common
-file formats and convert them to the PDF format.
-If you have PS or EPS files, you can use the tools \texttt{ps2pdf} or
-\texttt{epspdf} to convert your PS and EPS files to PDF\@.
-
-% Comment: If your sentence ends in a capital letter, like here, you should
-% write \@ before the period; otherwise LaTeX will assume that this is not
-% really an end of the sentence and will not put a large enough space after the
-% period. That is, LaTeX assumes that you are (for example), enumerating using
-% capital roman numerals, like I. do something, II. do something else. In this
-% case, the periods do not end the sentence.
-
-% Similarly, if you do need a normal space after a period (instead of
-% the longer sentence separator), use \ (backslash and space) after the
-% period. Like so: a.\ first item, b.\ second item.
-
-Furthermore, most newer editor programs allow you to save directly to the PDF
-format. For vector editing, you could try Inkscape, which is a new open source
-WYSIWYG vector editor that allows you to save directly to PDF\@.
-For graphs, either export/print your graphs from OpenOffice Calc/Microsoft
-Excel to PDF format, and then add them; or use \texttt{gnuplot}, which can
-create PDF files directly (at least the new versions can).
-The terminal type is \emph{pdf}, so the first line of your plot file should be
-something like \texttt{set term pdf \ldots}.
-
-To get the most professional-looking graphics, you can encode them using the
-TikZ package (TikZ is a frontend for the PGF graphics formatting system).
-You can create practically any kind of technical images with TikZ, but it has a
-rather steep learning curve. Locate the manual (\texttt{pgfmanual.pdf}) from
-your \LaTeX\ distribution and check it out. An example of TikZ-generated
-graphics is shown in Figure~\ref{fig:page-merge}.
-
-\begin{figure}[ht]
-  \begin{center}
-    \input{example_page-merge.tex}
-    \caption{Example of a multiversion database page merge. This figure has
-    been taken from the PhD thesis of Haapasalo~\cite{HaapasaloThesis}.}
-    \label{fig:page-merge}
-  \end{center}
-\end{figure}
-
-Another example of graphics created with TikZ is shown in
-Figure~\ref{fig:tikz-examples}.
-These show how graphs can be drawn and labeled.
-You can consult the example images and the PGF manual for more examples of what
-kinds figures you can draw with TikZ.
-
-% These definitions are only used in the example images; you will not
-% need them for your thesis...
-\newlength{\graphdotsize}
-\setlength{\graphdotsize}{1.7pt}
-\newlength{\graphgridsize}
-\setlength{\graphgridsize}{1.2em}
-\begin{figure}[ht]
+Opinnäytteen tekstiosan kirjaintyypin tulee olla antiikva eli
+%% esimerkki pakkotavutuksesta; "serif-tyyppinen" on tavutuksen kannalta
+%% hankala, joten pakkotavutetaan se. 
+serif\--tyyp\-pi\-nen ja lisäksi kursivoimaton, lihavoimaton sekä kooltaan 12
+pistettä (kuten tässä esityksessä). Groteskeja eli \textsf{Sans
+  serif}-tyyppisiä kirjaintyyppejä (kuten Helvetica tai Arial) ei saa
+käyttää varsinaisessa tekstissä, mutta otsikoissa näitä voidaan
+käyttää.  Otsikoissa voidaan käyttää kooltaan edellä mainittua
+suurempaa kirjaintyyppiä sekä tyylikeinoja, kuten lihavointia tai
+kursivointia.  Tekstissä samantasoisten otsikoiden on kuitenkin oltava
+tyyliltään ja kirjainlajeiltaan yhteneväisiä.
+%% Esimerkki taulukosta
+\begin{table}[htb]
+%% Taulukon teksti
+\caption{Taulukoissa ja kuvissa kirjaintyypin voi valita
+tarkoituksenmukaisesti, mutta kuva- ja taulukkoteksteissä tulee
+käyttää samaa kirjaintyyppiä kuin varsinaisessa tekstissä. 
+Huomaa taulukon numeroinnin sijoittuminen taulukon yläpuolelle. \label{taulukko1}}
 \begin{center}
-\subfigure[Examples of obstruction graphs for the Ferry Problem]{
-  \input{example_obstruction-grouped.tex}
+\fbox{
+\begin{tabular}{c|l|r}
+\textbf{A} & 1 & $e^{j \omega t}$ \\ \hline
+\textsf{B} & 2 & ${\mathfrak R}(c)$ \\ \hline
+\texttt{C} & 3 & $ a \in \mathbb{A}$  
+\end{tabular}
 }
-\subfigure[Examples of star graphs]{
-  \input{example_general-star-graphs.tex}
-}
-\caption{Examples of graphs draw with TikZ. These figures have been taken from a
-course report for the graph theory course~\cite{FerryProblem}.}
-\label{fig:tikz-examples}
 \end{center}
+\end{table}
+
+Opinnäytteen vasen marginaali (sidonnan puoli) on
+35~mm % tässä ~ muodostaa ns. yhdistävän välilyönnin
+ja oikea 25~mm. Ylämarginaali on 25~mm. Leipätekstin korkeus on
+enimmillään 230mm. Tämän opinnäytepohjan marginaalien pitäisi olla
+paperille tulostettuna oikein, mutta tulostimesta ja paperista
+riippuen voi esiintyä yhden tai kahden millimetrin suuruisia eroja.
+%% Jos käännät tämän tekstin pdflatex-komennolla ja tulostat sen katselu-
+%% ohjelmasta, toteat todennäköisesti em. mittojen poikkeavan enemmän
+%% kuin 1-2 mm. 
+%% Tämä on seurausta pdf-tiedoston erilaisesta kirjaintyyppimäärityksestä.
+%% Korkeatasoista painotyötä varten käytä vain latex-komentoa ja 
+%% tulosta postscript-muotoon käännetystä tiedostosta. 
+\subsection*{Asemointi}
+
+%% Muutos vanhaan ohjeeseen verrattuna: aikaisemmassa ohjeessa
+%% kehotettiin käyttämään vasensuora-asettelua, mutta tässä
+%% ohjeessa ollaan luovuttu tuosta vaatimuksesta ja siirrytty
+%% huoliteltumpaan, painotuotteenomaisempaan suuntaan.  
+Tekstiosan tekstissä käytetään kappaleiden erottamiseen sisennystä,
+mutta ensimmäistä otsikon, väliotsikon tai muun katkon jälkeistä
+kappaletta ei sisennetä. Jos kuva tai muu katko tulee kappaleiden
+väliin, suositellaan katkon jälkeisen kappaleen sisentämistä.
+
+Mikäli oikea reuna halutaan tasata, tulee käyttää tavutusta ja lisäksi
+tarkistaa, ettei tekstiin jää lukemista häiritseviä pitkiä sanavälejä. Jos
+käytät opinnäytteen tekemisessä \LaTeX-järjestelmää, 
+tämä asia hoituu automaattisest.
+
+Opinnäytteen riviväli on 1, mikä on myös tämän opinnäytepohjan käytäntö. 
+Kappaleiden tulee yleensä olla ainakin kolmen rivin pituisia, mutta
+myös liian pitkiä kappaleita tulee välttää.  Tässä opinnäytepohjassa
+ei tekstin luonteen vuoksi voida täysin toteuttaa kappaleen pituutta koskevia
+vaatimuksia.
+
+Yksittäisiä, kappaleen päättäviä tai aloittavia rivejä sivun alussa
+tai lopussa on vältettävä koko työssä, myös luetteloissa ja
+liitteissä.
+
+\subsection*{Numerointi}
+
+Opinnäytteen jokainen osa alkaa uudelta sivulta. Alaosa aloittaa uuden
+sivun vain edellisen sivun täytyttyä.
+
+Työn osat numeroidaan siten, että johdanto on ensimmäinen numeroitava
+osa. Osien numeroinnissa käytetään arabialaisia numeroita.
+
+Nimiölehti, tiivistelmä, esipuhe, sisällysluettelo ja symboli- ja
+lyhenneluettelo numeroidaan esipuheesta tai tämän puuttuessa 
+ensimmäiseltä luettelosivulta alkaen roomalaisin numeroin.
+
+Sivunumerointi alkaa toiselta varsinaiselta tekstisivulta, ja 
+sivunumeroinnissa käytetään arabialaisia numeroita.
+
+Lähdeluettelo alkaa uudelta sivulta. Lähdeluettelon sivunumerointi 
+jatkuu viimeisestä tekstisivusta.
+
+Jokainen liite alkaa uudelta sivulta. Liitteiden sivunumerointi
+jatkuu viimeisestä lähdeluettelon sivusta.
+
+Sivunumero sijoitetaan sivun yläreunaan.
+
+Matemaattiset kaavat numeroidaan arabialaisin
+numeroin. Kaavanumerointi ei saa katketa osien välissä (eikä niin
+tapahdukaan, jos käytät tätä opinnäytepohjaa). Kaikkia kaavoja ei tarvitse
+numeroida, vaan kirjoittaja voi käyttää harkintaa numeroinnin
+tarpeellisuudessa.  Liitteissä olevat kaavat numeroidaan siten, että
+liitteen ajatellaan muodostavan numeroinnin kannalta itsenäisen ja
+yhtenäisen kokonaisuuden. Kaavan numero sijoitetaan oikealle puolelle
+alla olevan esimerkin mukaisesti
+\begin{equation}
+D(xy) = (Dx)y + x(Dy),  \hspace{3em} x,y \in \mathbb{A}.
+\end{equation}
+%% Kaavojen jälkeen ei yleensä laiteta sisennystä. 
+Kaikki kuvat ja taulukot numeroidaan erillisen juoksevan numeroinnin
+mukaisesti kuten taulukosta \ref{taulukko1} ja kuvasta \ref{kuva1} käy
+ilmi.  Liitteissä olevat kuvat ja taulukot numeroidaan siten, että
+liitteen ajatellaan muodostavan numeroinnin kannalta itsenäisen ja
+yhtenäisen kokonaisuuden. Liitteissä \ref{LiiteA} ja \ref{LiiteB} on
+esimerkkejä kaavojen (kaavat \ref{liitekaava1}--\ref{liitekaava2} tai
+kaavat \ref{liitekaava3}--\ref{liitekaava4}), kuvien (kuva
+\ref{liitekuva}) ja taulukoiden (taulukko \ref{liitetaulukko})
+numeroimisesta.  Liitteet numeroidaan suuraakkosin (esimerkiksi Liite
+A, Liite B tai pelkästään A, B).
+%% Tässä esimerkki kuva1.pdf -nimisen tiedoston tuomisesta kuvaksi.
+%% Komento \inclugraphics[parametrit]{argumentti} tuo kuvan.
+%% Komento \centering pakottaa kuvan keskelle. 
+%% Komento \caption luo kuvatekstin ja sen numeroinnin
+%% Parametrit htb pakottavat kuvan suunnilleen siihen 
+%% kohtaan, missä se esiintyy tekstin lähdekoodissa
+\begin{figure}[htb]
+\centering \includegraphics[height=5cm]{kuva1}
+\caption{Tämä on esimerkki numeroidusta kuvatekstistä. \label{kuva1}}
 \end{figure}
 
+\subsection*{Lähdeviittausten käyttö} 
+
+Lähdeviittaukset tulee tehdä huolellisesti ja johdonmukaisesti
+numeroviitejärjestelmän mukaisesti. Numeroviitteet järjestetään
+lähdeluetteloon viittausjärjestykseen, mutta jos lähdeluettelo
+on hyvin laaja (useita sivuja), järjestetään viitteet pääsanan 
+mukaiseen aakkosjärjestykseen. Alaviitejärjestelmää
+\footnote{Myöskään alaviitteenä olevia kommentteja \underline{ei} suositella
+käytettäviksi.} ei käytetä. 
+
+Viitteen sijoittelussa noudatetaan seuraavia sääntöjä:
+Jos viite kohdistuu vain yhteen virkkeeseen tai virkkeen 
+osaan, viite \cite{Kauranen} sijoitetaan virkkeen sisään ennen virkettä
+päättävää pistettä. Jos taas viite koskee tekstin useampaa
+virkettä tai kokonaista kappaletta, sijoitetaan viite kappaleen loppuun 
+pisteen jälkeen. \cite{Kauranen} 
+
+\subsection*{Lähdeluettelo} 
+
+Lähdeluettelossa esiintyy tavallisesti seuraavassa esitettäviä
+lähteitä, joista on numeroviitejärjestelmässä ilmoitettava
+asianomaisessa kohdassa vaaditut tiedot.
+
+%% Esimerkki korostamisesta. Lihavoinnin sijasta on tyylikkäämpää
+%% ja luettavampaa käyttää kursiivia.
+\textit{Kirjasta} ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+\item[--]tekijät 
+\item[--]julkaisun nimi
+\item[--]painos, jos useita
+\item[--]kustannuspaikka
+\item[--]julkaisija tai kustantaja
+\item[--]julkaisuaika
+\item[--]mahdollinen sarjamerkintö. 
+\end{itemize}
+
+Viitteet \cite{Kauranen}--\cite{Koblitz} ovat esimerkkejä kirjan
+esittämisestä lähdeluettelossa. Viite \cite[s.\ 83--124]{Koblitz} on
+esimerkki lähdeluettelossa esiintyvän kirjan tiettyjen sivujen
+esittämisestä tekstissä.
+
+\textit{Artikkelista} kausijulkaisussa ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+
+\item[--]tekijät
+\item[--]artikkelin nimi
+\item[--]kausijulkaisun nimi
+\item[--]julkaisuvuosi
+\item[--]kausijulkaisun volyymi tai ilmestymisvuosi
+\item[--]kausijulkaisun numero
+\item[--]sivut, joilla artikkeli on.
+\end{itemize}
+
+Viitteet \cite{bcs}--\cite{Deschamps} ovat esimerkkejä artikkelin
+esittämisestä lähdeluettelossa.
+
+\textit{Kokoomateoksen luvusta tai osasta} ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+\item[--]luvun tai osan tekijät
+\item[--]luvun tai osan nimi
+\item[--]maininta >>Teoksessa>>
+\item[--]koko teoksen toimittajat sekä maininta >>(toim.)>>
+\item[--]koko teoksen tai konferenssin nimi
+\item[--]konferenssiesitelmän kyseessä ollessa sen pitopaikka ja -aika
+\item[--]painos, jos useita
+\item[--]kustannuspaikka
+\item[--]julkaisija tai kustantaja, jos aihetta tämän ilmoittamiseen on
+\item[--]julkaisuaika
+\item[--]sivut, joilla luku tai osa on 
+\item[--]mahdollinen sarjamerkintä.
+\end{itemize}
+
+Viitteet \cite{Sihvola}--\cite{Lindblom} ovat esimerkkejä
+kokoomateoksen luvun tai osan esittämisestä lähdeluettelossa. 
+
+\textit{Opinnäytetyöstä} ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+\item[--]tekijä
+\item[--]työn nimi
+\item[--]opinnäytetyön tyyppi
+\item[--]oppilaitoksen nimi
+\item[--]osaston, laitoksen tai ohjelman nimi
+\item[--]oppilaitoksen sijaintipaikka
+\item[--]vuosiluku.
+\end{itemize}
+
+Viitteet \cite{Miinusmaa}--\cite{Lonnqvist} ovat esimerkkejä
+opinnäytteen esittämisestä lähdeluettelossa. 
+
+\textit{Standardista} ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+\item[--]standardin tunnus ja numero
+\item[--]standardin nimi
+\item[--]painos, mikäli ei ole ensimmäinen
+\item[--]julkaisupaikka
+\item[--]julkaisija
+\item[--]julkaisuvuosi
+\item[--]sivumäärä.
+\end{itemize}
+Viite \cite{sfs} on esimerkki standardin esittämisestä opinnäytteen
+lähdeluettelossa. 
+
+\textit{Haastattelusta} ilmoitetaan seuraavat tiedot:
+
+\begin{itemize}
+\item[--]haastatellun henkilön nimi
+\item[--]haastatellun henkilön arvo tai asema
+\item[--]haastatellun henkilön edustama organisaatio
+\item[--]organisaation osoite
+\item[--]maininta siitä, että kyseessä on haastattelu ja haastattelun
+päivämäärä. 
+\end{itemize}
+
+Viite \cite{haastattelu} on esimerkki 
+haastattelun esittämisestä lähdeluettelossa.
+
+Osa sähköisessä muodossa olevista artikkeleista on saatavissa myös
+painettuina. \textit{Vain verkosta saatavissa olevasta artikkelista} esitetään
+seuraavat tiedot:
+
+\begin{itemize}
+\item[--]tekijät
+\item[--]artikkelin nimi
+\item[--]kausijulkaisun nimi
+\item[--]viestintyyppi
+\item[--]laitos tai volyymi
+\item[--]kausijulkaisun yksittäistä osaa koskeva merkintä tai numero
+\item[--]julkaisuvuosi tai maininta >>Päivitetty>> ja päivitysaika
+\item[--]maininta >>Viitattu>> ja viittaamisen ajankohta 
+\item[--]maininta >>Saatavissa>> ja URL tai 
+        maininta >>DOI>> ja DOI-numero (DOI=Digital Object Identifier).
+\end{itemize}
+
+Viitteet \cite{Ribeiro}--\cite{kone} ovat esimerkkejä sähköisessä
+muodossa olevan artikkelin esittämisestä opinnäytteen
+lähdeluettelossa.  Viitteet \cite{Ribeiro} ja \cite{Stieber} ovat
+saatavissa sekä painettuna että verkosta, joten viitteiden esitystapa
+mukailee painetun artikkelin viitteen esitystapaa, mutta sen lisäksi
+kerrotaan julkaisun olevan verkkolehti ja lehden olevan saatavissa
+myös painettuna.  Viite \cite{kone} on saatavissa vain verkosta ja
+siitä esitetään yllä vaaditut tiedot.
+
+Valitettavasti sähköisessä muodosssa olevasta artikkelista ei ole aina 
+saatavissa lai\-tos-, volyymi- tai numerotietoja.
+
+\textit{Sähköisessä muodossa olevasta opinnäytetyöstä} ilmoitetaan
+seuraavat tiedot:
+ 
+\begin{itemize}
+\item[--]tekijä
+\item[--]työn nimi
+\item[--]viestintyyppi
+\item[--]opinnäytetyön tyyppi
+\item[--]oppilaitoksen nimi
+\item[--]osaston, laitoksen tai ohjelman nimi
+\item[--]oppilaitoksen sijaintipaikka
+\item[--]vuosiluku
+\item[--]viittamisen ajankohta
+\item[--]maininta >>Saatavissa>> ja URL tai 
+        maininta >>DOI>> ja DOI-numero.
+\end{itemize}
+
+Viite \cite{Adida} on esimerkki sähköisessä muodossa olevan
+opinnäytteen esittämisestä lähdeluettelossa.
+
+Viite \cite{viittaaminen} on esimerkki itsenäisen kirjoituksen sisältävästä
+verkkosivusta. Tällainen lähde on rinnastettavissa erillisteokseen.
+\textit{Verkkosivusta} esitetään tiedot:
+
+\begin{itemize}
+\item[--] tekijät
+\item[--] otsikko
+\item[--] maininta >>Päivitetty>> ja päivitysaika 
+\item[--] maininta >>Viitattu>> ja viittaamisen ajankohta
+\item[--] Maininta >>Saatavissa>> ja URL.
+\end{itemize}
+
+Joskus verkkosivun kirjoitus on jaettu useammalle sivulle, jolloin
+lähdeluetteloon kirjataan vain sellainen verkko-osoite, joka koskee
+koko kirjoitusta tai sen etusivua, ellei sitten 
+todella tarkoiteta kirjoituksen yksittäistä sivua. 
+
+\subsection*{Muuta huomioitavaa lähdeluettelossa}
+
+%% Muutos vanhoihin ohjeisiin koskien kieltä.
+Lähdeluettelossa työn ja julkaisun nimi kirjoitetaan alkuperäisessä
+muodossaan. Julkaisijan kotipaikka kirjoitetaan alkukielisessä
+muodossaan.
+
+Viittamista koskevassa suomalaisessa standardissa
+SFS 5342 \cite{sfs} vaaditaan julkaisuista ilmoitettavaksi myös ISBN- tai
+ISSN-numerot, mutta näissä opinnäyteohjeissa ei ISBN- ja 
+ISSN-numeroita vaadita. 
+
+\clearpage
+
+\section{Tutkimusaineisto ja -menetelmät}
+%\section{Materials and methods}
+
+Tässä osassa kuvataan käytetty tutkimusaineisto ja
+tutkimuksen metodologiset valinnat, sekä
+kerrotaan tutkimuksen toteutustapa ja käytetyt menetelmät. 
+
+\clearpage
+
+\section{Tulokset}
+%\section{Results}
+
+Tässä osassa esitetään tulokset ja vastataan tutkielman alussa
+esitettyihin tutkimuskysymyksiin. Tieteellisen kirjoitelman
+arvo mitataan tässä osassa esitettyjen tulosten perusteella. 
+
+%% Huomaa seuraavassa kappaleessa lainausmerkkien ulkopuolella piste, 
+%% koska piste ei lopeta lainattua tekstinpätkää.
+%% Jos lainattu tekstinpätkä loppuu välimerkkiin, tulee välimerkki
+%% lainausmerkkien sisälle: 
+%% "Et tu, Brute?" sanoi Caesar kuollessaan.
+Tutkimustuloksien merkitystä on aina syytä arvioida ja tarkastella
+kriittisesti.  Joskus tarkastelu voi olla tässä osassa, mutta se
+voidaan myös jättää viimeiseen osaan, jolloin viimeisen osan nimeksi
+tulee >>Tarkastelu>>. Tutkimustulosten merkitystä voi arvioida myös
+>>Johtopäätökset>>-otsikon alla viimeisessä osassa. 
+
+Tässä osassa on syytä myös arvioida tutkimustulosten luotettavuutta.
+Jos tutkimustulosten merkitystä arvioidaan >>Tarkastelu>>-osassa,
+voi luotettavuuden arviointi olla myös siellä. 
+
+\clearpage
+
+\section{Yhteenveto}
+%\section{Summary} 
+
+Opinnäytteen tekijä vastaa siitä, että opinnäyte on tässä dokumentissa
+ja opinnäytteen tekemistä käsittelevillä luennoilla sekä
+harjoituksissa annettujen ohjeiden mukainen muotoseikoiltaan,
+rakenteeltaan ja ulkoasultaan.
 
 
-% \input{4methods.tex}
 
-\chapter{Methods}
-\label{chapter:methods}
+\clearpage
+%% Lähdeluettelo
+\addcontentsline{toc}{section}{Viitteet}
+%\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{99}
 
-You have now stated your problem, and you are ready to do something
-about it! \emph{How} are you going to do that? What methods do you
-use? You also need to review existing literature to justify your
-choices, meaning that why you have chosen the method to be applied in
-your work.
+%% Alla pilkun jälkeen on pakotettu oikea väli \<välilyönti>-merkeillä.
+\bibitem{Kauranen} Kauranen,\ I., Mustakallio,\ M. ja Palmgren,\ V.
+  \textit{Tutkimusraportin kirjoittamisen opas opinnäytetyön
+    tekijöille.}  Espoo, Teknillinen korkeakoulu, 2006.
 
-% An example of a traditional LaTeX table
-% ------------------------------------------------------------------
-% A note on underfull/overfull table cells and tables:
-% ------------------------------------------------------------------
-% In professional typography, the width of the text in a page is always a lot
-% less than the width of the page. If you are accustomed to the (too wide) text
-% areas used in Microsoft Word's standard documents, the width of the text in
-% this thesis layout may suprise you. However, text in a book needs wide
-% margins. Narrow text is easier to read and looks nicer. Longer lines are
-% hard to read, because the start of the next line is harder to locate when
-% moving from line to the next.
-% However, tables that are in the middle of the text often would require a wider
-% area. By default, LaTeX will complain if you create too wide tables with
-% ``overfull'' error messages, and the table will not be positioned properly
-% (not centered). If at all possible, try to make the table narrow enough so
-% that it fits to the same space as the text (total width = \textwidth).
-% If you do need more space, you can either
-% 1) ignore the LaTeX warnings
-% 2) use the textpos-package to manually position the table (read the package
-% documentation)
-% 3) if you have the table as a PDF document (of correct size, A4), you can use
-% the pdfpages package to include the page. This overrides the margin
-% settings for this page and LaTeX will not complain.
-% ------------------------------------------------------------------
-% Another note:
-% ------------------------------------------------------------------
-% If your table fits to \textwidth, but the cells are so narrow that the text
-% in p{..}-formatted cells does not flow nicely (you get underfull warnings
-% because LaTeX tries to justify the text in the cells) you can manually set
-% the text to unjustified by using the \raggedright command for each cell
-% that you do not want to be justified (see the example below). \raggedleft
-% is also possible, of course...
-% ------------------------------------------------------------------
-% If you need to have linefeeds (\\) inside a cell, you must create a new
-% paragraph-formatting environment inside the cell. Most common ones are
-% the minipage-environment and the \parbox command (see LaTeX documentation
-% for details; or just google for ``LaTeX minipage'' and ``LaTeX parbox'').
-\begin{table}
-\begin{tabular}{|p{2cm}|p{3.8cm}|p{4.5cm}|p{1.1cm}|}
-% Alignment of sells: l=left, c=center, r=right.
-% If you want wrapping lines, use p{width} exact cell widths.
-% If you want vertical lines between columns, write | above between the letters
-% Horizontal lines are generated with the \hline command:
-\hline % The line on top of the table
-\textbf{Code} & \textbf{Name} & \textbf{Methods} & \textbf{Area} \\
-\hline
-% Place a & between the columns
-% In the end of the line, use two backslashes \\ to break the line,
-% then place a \hline to make a horizontal line below the row
-T-110.6130 & Systems Engineering for Data Communications
-    Software & \raggedright Computer simulations, mathematical modeling,
-  experimental research, data analysis, and network service business
-  research methods, (agile method) & T-110 \\
-\hline
-\multicolumn{2}{|p{6.25cm}|}{Mat-2.3170 Simulation (here is an example of
- multicolumn for tables)}& Details of how to build simulations & T-110 \\
-% The multicolumn command takes the following 3 arguments:
-% the number of cells to merge, the cell formatting for the new cell, and the
-% contents of the cell
-\hline
-S-38.3184 & Network Traffic Measurements and Analysis
-& \raggedright How to measure and analyse network
-  traffic & T-110 \\ \hline
-\end{tabular} % for really simple tables, you can just use tabular
-% You can place the caption either below (like here) or above the table
-\caption{Research methodology courses}
-% Place the label just after the caption to make the link work
-\label{table:courses}
-\end{table} % table makes a floating object with a title
+\bibitem{Itkonen} Itkonen,\ M. \textit{Typografian käsikirja.} 3.\
+  painos.  Helsinki, RPS-yhtiöt, 2007.
 
-If you have not yet done any (real) metholodogical courses (but chosen
-introduction courses of different areas that are listed in the
-methodological courses list), now is the time to do so or at least
-check through material of suitable methodological courses. Good
-methodologial courses that consentrates especially to methods are
-presented in Table~\ref{table:courses}. Remember to explain the
-content of the tables (as with figures). In the table, the last column
-gives the research area where the methods are often used. Here we used
-table to give an example of tables. Abbreviations and Acronyms is also
-a long table. The difference is that longtables can continue to next
-page.
+\bibitem{Koblitz} Koblitz,\ N. \textit{A Course in Number Theory and
+    Cryptography. Graduate Texts in Mathematics 114.}  2.\ painos. New
+  York, Springer, 1994.
 
+%% Kun on useampi nimikirjain, jokaisen nimikirjaimen väliin
+%% kuuluu välilyönti. Oikea välin määrä on saatu \<välilyönnillä>
+\bibitem{bcs} Bardeen,\ J., Cooper,\ L.\ N. ja Schrieffer,\ J.\ R.
+  Theory of Superconductivity. \textit{Physical Review,} 1957, vol.\
+  108, nro~5, s.\ 1175--1204.
 
+\bibitem{Deschamps} Deschamps,\ G.\ A. Electromagnetics and
+  Differential Forms. \textit{Proceedings of the IEEE,} 1981, vol.\
+  69, nro~6, s.\ 676--696.
 
-% \input{5implementation.tex}
+%% Alla esimerkki englanninkielisen tavuttamisen pakottamisesta.
+%% Oletusarvoisesti käytetään suomalaista tavutusta, mutta viitteissä
+%% esiintyy usein muunkielisiä lauseita, jotka tulevat siten tavutetuksi
+%% suomen kielen sääntöjen mukaan. Tämän voi korjata \foreignlanguage-
+%% komennolla, jonka ensimmäinen parametri on vieraan kielen nimi ja toinen 
+%% on vieraalla kielellä tavutettava teksti. 
+\bibitem{Sihvola} Sihvola,\ A.\ et al.
+  \foreignlanguage{english}{Interpretation of measurements of helix 
+and bihelix superchiral structures.}  Teoksessa: Jacob,\ A.\ F. ja
+  Reinert,\ J. (toim.) \textit{Bianisotropics '98 7th International
+    Conference on Complex Media.}  Braunschweig, 3.--6.6.1998.
+  Braunscweig, Technische Universität Braunschweig, 1998, s.\
+  317--320.
 
-\chapter{Implementation}
-\label{chapter:implementation}
+%% Alla on suomalainen yhdistelmäsukunimi. Sen nimien välissä 
+%% käytetään yhdysmerkkiä l. tavuviivaa, kirjoitetaan -.
+\bibitem{Lindblom} Lindblom-Ylänne,\ S. ja Wager,\ M.  Tieteellisten
+  opinnäytetöiden ohjaaminen. Teoksessa: Lindblom-Ylänne,\ S. ja
+  Nevgi,\ A. (toim.) \textit{Yliopisto- ja korkeakouluopettajan
+    käsikirja.}  Helsinki, WSOY, 2004, s.\ 314--325.
+ 
+\bibitem{Miinusmaa} Miinusmaa,\ H. Neliskulmaisen reiän poraamisesta
+  kolmikulmaisella poralla. Diplomityö, Teknillinen korkeakoulu,
+  konetekniikan osasto, Espoo, 1977.
 
-You have now explained how you are going to tackle your problem.
-Go do that now! Come back when the problem is solved!
+%% Tässä taas pakotettu englanninkielinen tavutus. 
+%% Pedanttinen kirjoittaja pakottaa tietysti jokaiseen englanninkieliseen
+%% lauseeseen englannin tavutuksen, mutta tässä esityksessä ei näin ole
+%% tehty selvyyden ja lähdekoodin luettavuuden takia. 
+\bibitem{Loh} Loh,\ N.\ C. High-Resolution Micromachined
+  Interferometric Accelerometer. Master's Thesis, Massachusetts
+  Institute of Technology, Cambridge,
+  \foreignlanguage{english}{Massachusetts,} 1992.
 
-Now, how did you solve the problem?
-Explain how you implemented your solution, be it a software component, a
-custom-made FPGA, a fried jelly bean, or whatever.
-Describe the problems you encountered with your implementation work.
+\bibitem{Lonnqvist} Lönnqvist,\ A.
+  \foreignlanguage{english}{Applications of hologram-based compact
+    range: antenna radiation pattern, radar cross section, and
+    absorber reflectivity measurements.} Väitöskirja, Teknillinen
+  korkeakoulu, sähkö- ja tietoliikennetekniikan osasto, 2006.
 
+\bibitem{sfs} SFS 5342. Kirjallisuusviitteiden laatiminen. 2.\ painos.
+  Helsinki, Suomen standardisoimisliitto, 2004. 20~s.
 
+\bibitem{haastattelu} Palmgren,\ V. Suunnittelija. Teknillinen
+  korkeakoulu, kirjasto. Otaniementie 9, 02150 Espoo. Haastattelu
+  15.1.2007.
 
-% \input{6evaluation.tex}
+\bibitem{Ribeiro} Ribeiro,\ C.\ B., Ollila,\ E. ja Koivunen,\ V.
+  \foreignlanguage{english}{Stochastic Maximum-Likelihood Method for
+    MIMO Propagation Parameter Estimation.} \textit{IEEE Transactions
+    on Signal Processing,} verkkolehti, vol.\ 55, nro~1, s.\ 46--55.
+  Viitattu 19.1.2007. Lehti ilmestyy myös painettuna. DOI:
+  10.1109/TSP.2006.882057.
 
-\chapter{Evaluation}
-\label{chapter:evaluation}
+\bibitem{Stieber} Stieber,\ T. GnuPG Hacks. \textit{Linux Journal,}
+  verkkolehti, 2006, maaliskuu, nro~143. Viitattu 19.1.2007. Lehti
+  ilmestyy myös painettuna. Saatavissa:
+  \url{http://www.linuxjournal.com/article/8732.}
 
-You have done your work, but that's\footnote{By the way, do \emph{not} use
-shorthands like this in your text! It is not professional! Always write out all
-the words: ``that is''.} not enough.
+\bibitem{kone} Pohjois-Koivisto,\ T. Voiko kone tulevaisuudessa arvata
+  tahtosi?  \textit{Apropos,} verkkolehti, helmikuu, nro~1, 2005.
+  Viitattu 19.1.2007.  Saatavissa:
+  \url{http://www.apropos.fi/1-2005/prima.php.}
 
-You also need to evaluate how well your implementation works. The
-nature of the evaluation depends on your problem, your method, and
-your implementation that are all described in the thesis before this
-chapter. If you have created a program for exact-text matching, then
-you measure how long it takes for your implementation to search for
-different patterns, and compare it against the implementation that was
-used before. If you have designed a process for managing software
-projects, you perhaps interview people working with a waterfall-style
-management process, have them adapt your management process, and
-interview them again after they have worked with your process for some
-time. See what's changed.
+\bibitem{Adida} Adida,\ B.  Advances in Cryptographic Voting Systems.
+  Verkkodokumentti. Ph.D.\ Thesis, Massachusetts Institute of
+  Technology, Cambridge, \foreignlanguage{english}{Massachusetts,}
+  2006. Viitattu 19.1.2007.  Saatavissa:
+  \url{http://crypto.csail.mit.edu/~cis/theses/adida-phd.pdf.}
 
-The important thing is that you can evaluate your success somehow.
-Remember that you do not have to succeed in making something spectacular; a
-total implementation failure may still give grounds for a very good master's
-thesis---if you can analyze what went wrong and what should have been done.
+\bibitem{viittaaminen} Kilpeläinen,\ P. WWW-lähteisiin viittaaminen
+  tutkielmatekstissä. Verkkodokumentti. Päivitetty 26.11.2001.
+  Viitattu 19.1.2007. Saatavissa:
+  \url{http://www.cs.uku.fi/~kilpelai/wwwlahteet.html.}
 
+\end{thebibliography}
 
+%% Liitteet 
+\appendix 
 
+\clearpage
+\addcontentsline{toc}{section}{Liite A}
+\section{Esimerkki liitteestä\label{LiiteA}}
+%% Liitteiden kaavat, taulukot ja kuvat numeroidaan omana kokonaisuutenaan
+%%
+%% Equations, tables and figures have their own numbering in Appendices
+\renewcommand{\theequation}{A\arabic{equation}}
+\setcounter{equation}{0}  
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{table}{0}
 
-% \input{7discussion.tex}
+Liitteet eivät ole opinnäytteen kannalta välttämättömiä ja 
+opinnäytteen tekijän on 
+kirjoittamaan ryhtyessään hyvä ajatella pärjäävänsä ilman liitteitä.
+Kokemattomat kirjoittajat, jotka ovat huolissaan
+tekstiosan pituudesta, paisuttavat turhan 
+helposti liitteitä pitääkseen tekstiosan pituuden annetuissa rajoissa.
+Tällä tavalla ei synny hyvää opinnäytettä.   
 
-\chapter{Discussion}
-\label{chapter:discussion}
+Liite on itsenäinen kokonaisuus, vaikka se täydentääkin tekstiosaa.
+Liite ei siten ole pelkkä listaus, kuva tai taulukko, vaan 
+liitteessä selitetään aina sisällön laatu ja tarkoitus. 
 
-At this point, you will have some insightful thoughts on your implementation
-and you may have ideas on what could be done in the future.
-This chapter is a good place to discuss your thesis as a whole and to show your
-professor that you have really understood some non-trivial aspects of the
-methods you used\ldots
+Liitteeseen voi laittaa esimerkiksi listauksia. Alla on 
+listausesimerkki tämän liitteen luomisesta. 
 
+%% Verbatim-ympäristö ei muotoile tai tavuta tekstiä. Fontti on monospace.
+%% Verbatim-ympäristön sisällä annettuja komentoja ei LaTeX käsittele. 
+%% Vasta \end{verbatim}-komennon jälkeen jatketaan käsittelyä.
+\begin{verbatim}
+	\clearpage
+	\appendix
+	\addcontentsline{toc}{section}{Liite A}
+	\section*{Liite A}
+	...
+	\thispagestyle{empty}
+	...
+	tekstiä
+	...
+	\clearpage
+\end{verbatim}
 
-
-% \input{8conclusions.tex}
-
-\chapter{Conclusions}
-\label{chapter:conclusions}
-
-Time to wrap it up!
-Write down the most important findings from your work.
-Like the introduction, this chapter is not very long.
-Two to four pages might be a good limit.
+Kaavojen numerointi muodostaa liitteissä oman kokonaisuutensa:
+\begin{eqnarray}
+d \wedge A  &=& F, \label{liitekaava1}\\
+d \wedge F  &=& 0. \label{liitekaava2}
+\end{eqnarray}
 
 
+\clearpage
+\addcontentsline{toc}{section}{Liite B}
+\section{Toinen esimerkki liitteestä\label{LiiteB}}
 
-% Load the bibliographic references
-% ------------------------------------------------------------------
-% You can use several .bib files:
-% \bibliography{thesis_sources,ietf_sources}
-\bibliography{ref}
+%% Liitteiden kaavat, taulukot ja kuvat numeroidaan omana kokonaisuutenaan
+%%
+%% Equations, tables and figures have their own numbering in Appendices
+\renewcommand{\theequation}{B\arabic{equation}}
+\setcounter{equation}{0}  
+\renewcommand{\thefigure}{B\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{B\arabic{table}}
+\setcounter{table}{0}
 
-
-% Appendices go here
-% ------------------------------------------------------------------
-% If you do not have appendices, comment out the following lines
-\appendix
-% \input{appendices.tex}
-
-\chapter{First appendix}
-\label{chapter:first-appendix}
-
-This is the first appendix. You could put some test images or verbose data in an
-appendix, if there is too much data to fit in the actual text nicely.
-
-For now, the Aalto logo variants are shown in Figure~\ref{fig:aaltologo}.
-
-\begin{figure}
+Liitteissä voi myös olla kuvia, jotka
+eivät sovi leipätekstin joukkoon:
+%% Ympäristön figure parametrit htb pakottavat
+%% kuvan tähän, eikä LaTeX yritä siirrellä niitä
+%% hyväksi katsomaansa paikkaan. 
+%% Ympäristöä center voi käyttää \centering-
+%% komennon sijaan
+%%
+%% Example of a figure, note the use of htb parameters which force
+%% the figure to be inserted here
+\begin{figure}[htb]
 \begin{center}
-\subfigure[In English]{\includegraphics[width=.8\textwidth]{aalto-logo-en}}
-\subfigure[Suomeksi]{\includegraphics[width=.8\textwidth]{aalto-logo-fi}}
-\subfigure[Pä svenska]{\includegraphics[width=.8\textwidth]{aalto-logo-se}}
-\caption{Aalto logo variants}
-\label{fig:aaltologo}
+\includegraphics[height=8cm]{kuva2}
 \end{center}
+\caption{Kuvateksti, jossa on liitteen numerointi \label{liitekuva}}
 \end{figure}
+%%
+Liitteiden taulukoiden numerointi on kuvien ja kaavojen kaltainen:
+\begin{table}[htb]
+\caption{Taulukon kuvateksti. \label{liitetaulukko}}
+\begin{center}
+\fbox{
+\begin{tabular}{lp{0.5\linewidth}}
+9.00--9.55  & Käytettävyystestauksen tiedotustilaisuus (osanottajat
+ovat saaneet sähköpostitse valmistautumistehtävät, joten tiedotustilaisuus
+voidaan pitää lyhyenä).\\
+9.55--10.00 & Testausalueelle siirtyminen
+\end{tabular}}
+\end{center}
+\end{table}
+Kaavojen numerointi muodostaa liitteissä oman kokonaisuutensa:
+\begin{eqnarray}
+T_{ik} &=& -p g_{ik} + w u_i u_k + \tau_{ik},  \label{liitekaava3} \\
+n_i    &=& n u_i + v_i.                        \label{liitekaava4}
+\end{eqnarray}
 
-
-% End of document!
-% ------------------------------------------------------------------
-% The LastPage package automatically places a label on the last page.
-% That works better than placing a label here manually, because the
-% label might not go to the actual last page, if LaTeX needs to place
-% floats (that is, figures, tables, and such) to the end of the
-% document.
 \end{document}
+
+
