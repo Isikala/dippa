@@ -207,14 +207,14 @@
 % standard master's thesis parts (abstracts, front page, and so on)
 % Load this package second-to-last, just before the hyperref package.
 % Options that you can use:
-%   mydraft - renders the thesis in draft mode.
-%             Do not use for the final version.
-%   doublenumbering - [optional] number the first pages of the thesis
-%                     with roman numerals (i, ii, iii, ...); and start
-%                     arabic numbering (1, 2, 3, ...) only on the
-%                     first page of the first chapter
-%   twoinstructors  - changes the title of instructors to plural form
-%   twosupervisors  - changes the title of supervisors to plural form
+% mydraft - renders the thesis in draft mode.
+% Do not use for the final version.
+% doublenumbering - [optional] number the first pages of the thesis
+% with roman numerals (i, ii, iii, ...); and start
+% arabic numbering (1, 2, 3, ...) only on the
+% first page of the first chapter
+% twoinstructors - changes the title of instructors to plural form
+% twosupervisors - changes the title of supervisors to plural form
 \usepackage[mydraft,twosupervisors]{aalto-thesis}
 %\usepackage[mydraft,doublenumbering]{aalto-thesis}
 %\usepackage{aalto-thesis}
@@ -259,13 +259,13 @@
 % ------------------------------------------------------------------
 \newcommand{\TITLE}{Software Processes for Dummies:}
 \newcommand{\FTITLE}{Ohjelmistoprosessit mänteille:}
-\newcommand{\STITLE}{Den stora stygga vargen:}
+%\newcommand{\STITLE}{Den stora stygga vargen:}
 \newcommand{\SUBTITLE}{Re-inventing the Wheel}
 \newcommand{\FSUBTITLE}{Uusi organisaatio, uudet pyörät}
-\newcommand{\SSUBTITLE}{Lilla Vargens universum}
+%\newcommand{\SSUBTITLE}{Lilla Vargens universum}
 \newcommand{\DATE}{June 18, 2011}
 \newcommand{\FDATE}{18. kesäkuuta 2011}
-\newcommand{\SDATE}{Den 18 Juni 2011}
+%\newcommand{\SDATE}{Den 18 Juni 2011}
 
 % Supervisors and instructors
 % ------------------------------------------------------------------
@@ -289,14 +289,14 @@
 % If you have only one instructor, just write one name here
 \newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)}
 \newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja}
-\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja}
+%\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja}
 % If you have two instructors, separate them with \\ to create linefeeds
 % \newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)\\
-%  Elli Opas M.Sc. (Tech)}
+% Elli Opas M.Sc. (Tech)}
 %\newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja\\
-%  Diplomi-insinööri Elli Opas}
+% Diplomi-insinööri Elli Opas}
 %\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja\\
-%  Diplomingenjör Elli Opas}
+% Diplomingenjör Elli Opas}
 
 % If you have two supervisors, it is common to write the schools
 % of the supervisors in the cover page. If the following command is defined,
@@ -307,28 +307,28 @@
 
 % The same option is for the instructors, if you have multiple instructors.
 % \newcommand{\COVERINSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.), Aalto University\\
-%  Elli Opas M.Sc. (Tech), Aalto SCI}
+% Elli Opas M.Sc. (Tech), Aalto SCI}
 
 
 % Other stuff
 % ------------------------------------------------------------------
 \newcommand{\PROFESSORSHIP}{Data Communication Software}
 \newcommand{\FPROFESSORSHIP}{Tietoliikenneohjelmistot}
-\newcommand{\SPROFESSORSHIP}{Datakommunikationsprogram}
+%\newcommand{\SPROFESSORSHIP}{Datakommunikationsprogram}
 % Professorship code is the same in all languages
 \newcommand{\PROFCODE}{T-110}
 \newcommand{\KEYWORDS}{ocean, sea, marine, ocean mammal, marine mammal, whales,
 cetaceans, dolphins, porpoises}
 \newcommand{\FKEYWORDS}{AEL, aineistot, aitta, akustiikka, Alankomaat,
 aluerakentaminen, Anttolanhovi, Arcada, ArchiCad, arkki}
-\newcommand{\SKEYWORDS}{omsättning, kassaflöde, värdepappersmarknadslagen,
-yrkesutövare, intresseföretag, verifieringskedja}
+%\newcommand{\SKEYWORDS}{omsättning, kassaflöde, värdepappersmarknadslagen,
+%yrkesutövare, intresseföretag, verifieringskedja}
 \newcommand{\LANGUAGE}{English}
 \newcommand{\FLANGUAGE}{Englanti}
-\newcommand{\SLANGUAGE}{Engelska}
+%\newcommand{\SLANGUAGE}{Engelska}
 
 % Author is the same for all languages
-\newcommand{\AUTHOR}{Stella Student}
+\newcommand{\AUTHOR}{Mikael Siirtola}
 
 
 % Currently the English versions are used for the PDF file metadata
@@ -411,6 +411,9 @@ yrkesutövare, intresseföretag, verifieringskedja}
 % Abstract in English
 % ------------------------------------------------------------------
 \thesisabstract{english}{
+
+%TODO
+
 A dissertation or thesis is a document submitted in support of candidature
 for a degree or professional qualification presenting the author's research and
 findings. In some countries/universities, the word thesis or a cognate is used
@@ -439,48 +442,8 @@ get you well on your way!}
 % Abstract in Finnish
 % ------------------------------------------------------------------
 \thesisabstract{finnish}{
-Kivi on materiaali, joka muodostuu mineraaleista ja luokitellaan
-mineraalisisältönsä mukaan. Kivet luokitellaan yleensä ne muodostaneiden
-prosessien mukaan magmakiviin, sedimenttikiviin ja metamorfisiin kiviin.
-Magmakivet ovat muodostuneet kiteytyneestä magmasta, sedimenttikivet vanhempien
-kivilajien rapautuessa ja muodostaessa iskostuneita yhdisteitä, metamorfiset
-kivet taas kun magma- ja sedimenttikivet joutuvat syvällä maan kuoressa
-lämpötilan ja kovan paineen alaiseksi.
-
-Kivi on epäorgaaninen eli elottoman luonnon aine, mikä tarkoittaa ettei se
-sisällä hiiltä tai muita elollisen orgaanisen luonnon aineita. Niinpä kivestä
-tehdyt esineet säilyvät maaperässä tuhansien vuosien ajan mätänemättä. Kun
-orgaaninen materiaali jättää jälkensä kiveen, tulos tunnetaan nimellä fossiili.
-
-Suomen peruskallio on suurimmaksi osaksi graniittia, gneissiä ja
-Kaakkois-Suomessa rapakiveä.
-
-Kiveä käytetään teollisuudessa moniin eri tarkoituksiin, kuten keittiötasoihin.
-Kivi on materiaalina kalliimpaa mutta kestävämpää kuin esimerkiksi puu.}
-
-% Abstract in Swedish
-% ------------------------------------------------------------------
-\thesisabstract{swedish}{
-Lilla Vargens universum är det tredje fiktiva universumet inom huvudfäran av de
-tecknade disneyserierna - de övriga två är Kalle Ankas och Musse Piggs
-universum. Figurerna runt Lilla Vargen kommer huvudsakligen frän tre källor ---
-dels persongalleriet i kortfilmen Tre smä grisar frän 1933 och dess uppföljare,
-dels längfilmen Sängen om Södern frän 1946, och dels frän episoden ``Bongo'' i
-längfilmen Pank och fägelfri frän 1947. Framför allt de två första har
-sedermera även kommit att leva vidare, utvidgas och införlivas i varandra genom
-tecknade serier, främst sädana producerade av Western Publishing för
-amerikanska Disneytidningar under ären 1945--1984.
-
-Världen runt Lilla Vargen är, i jämförelse med den runt Kalle Anka eller Musse
-Pigg, inte helt enhetlig, vilket bland annat märks i Bror Björns skiftande
-personlighet. Den har även varit betydligt mer öppen för influenser frän andra
-Disneyvärldar, inte minst de tecknade längfilmerna. Ytterligare en skillnad är
-att varelserna i vargserierna förefaller stä närmare sina förebilder inom den
-verkliga djurvärlden. Att vargen Zeke vill äta upp grisen Bror Duktig är till
-exempel ett ständigt äterkommande tema, men om katten Svarte Petter skulle fä
-för sig att äta upp musen Musse Pigg skulle detta antagligen höja ett och annat
-ögonbryn bland läsarna.}
-
+%TODO
+}
 
 % Acknowledgements
 % ------------------------------------------------------------------
@@ -525,7 +488,7 @@ Thank you, and keep up the good work!
 2k/4k/8k mode & COFDM operation modes \\
 3GPP & 3rd Generation Partnership Project \\
 ESP & Encapsulating Security Payload; An IPsec security protocol \\
-FLUTE  & The File Delivery over Unidirectional Transport protocol \\
+FLUTE & The File Delivery over Unidirectional Transport protocol \\
 e.g.& for example (do not list here this kind of common acronymbs or abbreviations, but only those that are essential for understanding the content of your thesis. \\
 note & Note also, that this list is not compulsory, and should be omitted if you have only few abbreviations
 
@@ -578,11 +541,11 @@ note & Note also, that this list is not compulsory, and should be omitted if you
 \chapter{Introduction}
 \label{chapter:intro}
 
-This is my master's thesis, and I am very proud of it.  Of course,
+This is my master's thesis, and I am very proud of it. Of course,
 when I write my \emph{real} master's thesis, I will not use the
 singular pronoun \emph{I}, but rather try to avoid referring to myself
 and speak of the research \emph{we} have conducted---I rarely work
-alone, after all.  Yet, both \emph{I} and \emph{we} are correct, and
+alone, after all. Yet, both \emph{I} and \emph{we} are correct, and
 it depends on the instructor and the supervisor (of course from you,
 too), which one they would prefer. Anyway, the tense should be active,
 and passive sentenses should be avoided (especially, writing sentences
@@ -593,9 +556,9 @@ you have it.
 By the way, the preferred order of writing your master's thesis is
 about the same as the outline of the thesis: you first discover your
 problem and write about that, then you find out what methods you
-should use and write about that.  Then you do your implementation, and
-document that, and so on.  However, the abstract and introduction are
-often easiest to write last.  This is because these really cover the
+should use and write about that. Then you do your implementation, and
+document that, and so on. However, the abstract and introduction are
+often easiest to write last. This is because these really cover the
 entire thesis, and there is no way you could know what to put in your
 abstract before you have actually done your implementation and
 evaluation. Rarely anyone write the thesis from the beginning to the
@@ -622,7 +585,7 @@ dramatically increase as the new thesis outline is taken into use.
 \section{Helpful hints}
 
 Read the information from the university master's thesis
-pages~\cite{ThesisInstructions} before starting the thesis.  You
+pages~\cite{ThesisInstructions} before starting the thesis. You
 should also go through the thesis grading
 instructions~\cite{ThesisGrading} together with your instructor and/or
 supervisor in the beginning of your work.
@@ -641,8 +604,42 @@ each chapter of your thesis.
 \chapter{Background}
 \label{chapter:background}
 
+Petrofysics is combination of geology and study of how rocks interact with liquids. 
+It helps us understand how reservoirs filled with hydrocarbons (gases, oil) are formed.
+Reservoirs are complex three-dimensional strucktures filled with pores.
+
+-historiasta?
+-miten öljykenttä moudostuu?
+
+-porosity
+-permeability
+-resistivity
+-water saturation
+-wettability
+
+Magnetic susceptibility:
+
+Magnetic susceptibility is by definition magnetization divided by the field it is applied with.
+Mathematically it can be expressed as  \kappa that can be aguired by dividing induced magnetization 
+per volume unit of measured sample (M) with applied magnetic field intensity (H)\cite{Lascu2009}:
+\kappa \equals \frac{M}{H}
+\kappa has no dimensions since M and H have the same unit A/m. However if we know density of the 
+material(\rho) we may calculate mass specific magnetic susceptibility with following \cite{Lascu2009}:
+\chi \equals \frac{\kappa}{\rho}
+All substances may be categorised by their magnetic properties. Ferromagnetic minerals remember 
+magnetic field that was applied on them by being able to contain a magnetic remnance. Good examples of 
+ferromagnets are oxides such as magnetite (Fe_3O_4), hematite (Fe2O3) and sulfides like pyrrhotite (Fe_7S_8) and greigite (Fe_3S_4). Ferromagnets have strongly 
+positive magnetic susceptibility. Paramagnetic materials allow only weak interaction between metal atoms. Their
+magnetic susceptibility is weakly positive. Paramagnetic minerals include Fe-Ti oxides (illmenite), Fe-Mn carbonates 
+(siderite, rhodochrosite) and Fe sulfides (e.g. pyrite). Dimagnetic substances posses negative magnezitation when 
+they are applied a weak magnetic field. They are minerals that do not contain iron, ogranic materials and artificial 
+materials such as polyethylene and polycarbonates. According to Lascu\cite{Lascu2009}  dimagnetic materials are 
+especially important because paleolimnology workers sometimes mistake errors caused by dimagnetic materials to be 
+caused by errors in the instruments. \cite{Lascu2009}
+%gabbaleen vaihto 8=========D
+
 The problem must have some background, otherwise it is not
-interesting.  You can explain the background here. Probably you should
+interesting. You can explain the background here. Probably you should
 change the title to something that describes more the content of this
 chapter. Background consists of information that help other masters of
 the same degree program to understand the rest of the thesis.
@@ -663,7 +660,7 @@ Writing Lab
 (OWL)\footnote{http://owl.english.purdue.edu/owl/resource/574/02/} of
 Purdue University or Strunk's Elements of
 Style\footnote{http://www.bartleby.com/141/}. Remember that footnotes
-are additional information, and they are seldom used.  If you refer to a source, you do no
+are additional information, and they are seldom used. If you refer to a source, you do no
 not use footnote. The right command for the references is \emph{cite}.
 
 The language used in the thesis should be technical (or
@@ -779,7 +776,7 @@ give short examples that are marked with \emph{emphasised text}.
   that allows use of previous versions of the content stored in the
   database.} This kind of marking means that this paragraph (or until
 the next reference is given) is based on the source mentioned in the
-beginning.  Giving the source you should use only the family name of
+beginning. Giving the source you should use only the family name of
 the first author of the article, and not give any hints about what is
 the type of the article that is referred.
 
@@ -816,7 +813,7 @@ embedded in the sentences. For example, \emph{the multiversion B+-tree
 
 Finally, direct quotes are allowed. However, often you should avoid
 them since they do not usually fit in to your text very well. Using
-direct quotes has two tricks: quotation marks and the source.  \emph{
+direct quotes has two tricks: quotation marks and the source. \emph{
   ``Even though deletions in a multiversion index must not physically
   delete the history of the data items, queries and range scans can
   become more efficient, if the leaf pages of the index structure are
@@ -938,7 +935,7 @@ If you have PS or EPS files, you can use the tools \texttt{ps2pdf} or
 % case, the periods do not end the sentence.
 
 % Similarly, if you do need a normal space after a period (instead of
-% the longer sentence separator), use \  (backslash and space) after the
+% the longer sentence separator), use \ (backslash and space) after the
 % period. Like so: a.\ first item, b.\ second item.
 
 Furthermore, most newer editor programs allow you to save directly to the PDF
@@ -1000,8 +997,8 @@ course report for the graph theory course~\cite{FerryProblem}.}
 \label{chapter:methods}
 
 You have now stated your problem, and you are ready to do something
-about it!  \emph{How} are you going to do that? What methods do you
-use?  You also need to review existing literature to justify your
+about it! \emph{How} are you going to do that? What methods do you
+use? You also need to review existing literature to justify your
 choices, meaning that why you have chosen the method to be applied in
 your work.
 
@@ -1024,10 +1021,10 @@ your work.
 % If you do need more space, you can either
 % 1) ignore the LaTeX warnings
 % 2) use the textpos-package to manually position the table (read the package
-%    documentation)
+% documentation)
 % 3) if you have the table as a PDF document (of correct size, A4), you can use
-%    the pdfpages package to include the page. This overrides the margin
-%    settings for this page and LaTeX will not complain.
+% the pdfpages package to include the page. This overrides the margin
+% settings for this page and LaTeX will not complain.
 % ------------------------------------------------------------------
 % Another note:
 % ------------------------------------------------------------------
@@ -1113,13 +1110,13 @@ You have done your work, but that's\footnote{By the way, do \emph{not} use
 shorthands like this in your text! It is not professional! Always write out all
 the words: ``that is''.} not enough.
 
-You also need to evaluate how well your implementation works.  The
+You also need to evaluate how well your implementation works. The
 nature of the evaluation depends on your problem, your method, and
 your implementation that are all described in the thesis before this
-chapter.  If you have created a program for exact-text matching, then
+chapter. If you have created a program for exact-text matching, then
 you measure how long it takes for your implementation to search for
 different patterns, and compare it against the implementation that was
-used before.  If you have designed a process for managing software
+used before. If you have designed a process for managing software
 projects, you perhaps interview people working with a waterfall-style
 management process, have them adapt your management process, and
 interview them again after they have worked with your process for some
