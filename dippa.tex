@@ -402,7 +402,10 @@ core part . This would leave only small part of the measurement at the beginning
 end of the core sample air-biased \cite{Nowaczyk2001}:. In this method it is important that the common dept scale
 of the cores is correct. Otherwise artificial peaks may be noted in measurements\cite{Nowaczyk2001}:. Other source
 for errors in loop sensors is drifting. When sensor is zeroed it loses its calibration over time and starts to 
-show readings even on air. This effect may be removed by linear regression.
+show readings even on air. This effect may be removed by starting measurements before core reaches the sensors
+sensitivity volume and continuing to take readings after the core has passed the sensor. By comparing the readings
+before and after the core and fitting them with linear regression the error may be averaged over the core and the 
+error may be removed.
 
 
 %miten suskista käytännössä mitataan
